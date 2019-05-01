@@ -1,0 +1,3 @@
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\bin\ReleaseCustom\LibHost.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\ReleaseCustom\LibHost.csproj.CoreCompileInputs.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\ReleaseCustom\LibHost.dll

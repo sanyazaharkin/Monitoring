@@ -1,0 +1,8 @@
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\bin\ReleaseCustom\UserInterface.exe
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\bin\ReleaseCustom\UserInterface.pdb
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.Properties.Resources.resources
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.csproj.GenerateResource.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.csproj.CoreCompileInputs.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.exe
+C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\ReleaseCustom\UserInterface.pdb

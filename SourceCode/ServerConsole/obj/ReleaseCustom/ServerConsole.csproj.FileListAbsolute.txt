@@ -1,0 +1,5 @@
+C:\Users\sanya\source\repos\Monitoring\Release\ServerConsole\ServerConsole.exe
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\ReleaseCustom\ServerConsole.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\ReleaseCustom\ServerConsole.csproj.CoreCompileInputs.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\ReleaseCustom\ServerConsole.csproj.CopyComplete
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\ReleaseCustom\ServerConsole.exe

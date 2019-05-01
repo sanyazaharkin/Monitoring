@@ -1,0 +1,2 @@
+C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\bin\DebugCustom\TestingConsole.exe
+C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\bin\DebugCustom\TestingConsole.pdb
