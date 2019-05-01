@@ -55,9 +55,9 @@ DROP TABLE IF EXISTS `Monitoring`.`hosts` ;
 CREATE TABLE IF NOT EXISTS `Monitoring`.`hosts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hostname` VARCHAR(45) NOT NULL,
-  `state` INT NOT NULL,
   `operating_system` INT NOT NULL,
   `bios_version` VARCHAR(50) NOT NULL,
+  `state` INT NOT NULL,
   PRIMARY KEY (`id`, `hostname`),
   CONSTRAINT `to_operating_system`
     FOREIGN KEY (`operating_system`)
@@ -469,7 +469,6 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_net` (
   `mac` VARCHAR(20) NOT NULL,
   `description` VARCHAR(45) NOT NULL,
   `gateway_id` INT NOT NULL,
-  `device_netcol` VARCHAR(45) NULL,
   PRIMARY KEY (`device_name_hash`, `mac`),
   CONSTRAINT `from_net_to_devices`
     FOREIGN KEY (`device_name_hash`)

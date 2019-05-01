@@ -59,8 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Work.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibHost\LibHost.csproj">

@@ -5,10 +5,23 @@ using System.Text;
 
 namespace TestingConsole
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            LibAgent.Work.MSG += ShowMessage;
+            LibHost.Host host = LibAgent.Work.GetHost();
+            
+
+
+
+            Console.ReadLine();
+        }
+
+
+        public static void ShowMessage(string str)
+        {
+            Console.WriteLine(str);
         }
     }
 }

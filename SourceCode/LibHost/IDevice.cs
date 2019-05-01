@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LibAgent
+namespace LibHost
 {
-    public class Class1
+    public interface IDevice
     {
     }
 }
