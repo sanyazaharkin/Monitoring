@@ -1,0 +1,10 @@
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\bin\DebugCustom\LibSrv.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\bin\DebugCustom\LibSrv.pdb
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\bin\DebugCustom\LibHost.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\bin\DebugCustom\MySql.Data.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\bin\DebugCustom\LibHost.pdb
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\obj\DebugCustom\LibSrv.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\obj\DebugCustom\LibSrv.csproj.CoreCompileInputs.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\obj\DebugCustom\LibSrv.csproj.CopyComplete
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\obj\DebugCustom\LibSrv.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibSrv\obj\DebugCustom\LibSrv.pdb
