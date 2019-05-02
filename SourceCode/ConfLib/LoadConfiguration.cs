@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace ConfLib
 {
-    class LoadConfiguration
+    public class LoadConfiguration
     {
         public string Path { get; private set; } //Имя файла.
 
@@ -24,7 +24,7 @@ namespace ConfLib
         }
 
         
-        public string ReadINI(string Section, string Key) //Читаем ini-файл и возвращаем значение указного ключа из заданной секции.
+        public string Read(string Section, string Key) //Читаем ini-файл и возвращаем значение указного ключа из заданной секции.
         {
             var RetVal = new StringBuilder(255);
             GetPrivateProfileString(Section, Key, "", RetVal, 255, Path);
@@ -49,7 +49,7 @@ namespace ConfLib
         
         public bool KeyExists(string Key, string Section = null) //Проверяем, есть ли такой ключ, в этой секции
         {
-            return ReadINI(Section, Key).Length > 0;
+            return Read(Section, Key).Length > 0;
         }
     }
 }

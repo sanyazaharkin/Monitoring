@@ -61,5 +61,11 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConfLib\ConfLib.csproj">
+      <Project>{e60b9c30-d58b-4fa9-862d-c36d61b22fca}</Project>
+      <Name>ConfLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

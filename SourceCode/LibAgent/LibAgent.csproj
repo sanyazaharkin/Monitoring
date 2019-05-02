@@ -38,6 +38,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseCustom|AnyCPU'">
     <OutputPath>bin\ReleaseCustom\</OutputPath>
@@ -60,13 +61,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Work.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConfLib\ConfLib.csproj">
+      <Project>{e60b9c30-d58b-4fa9-862d-c36d61b22fca}</Project>
+      <Name>ConfLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LibHost\LibHost.csproj">
       <Project>{33cbb989-374a-47f8-aaf0-7af22a7730d8}</Project>
       <Name>LibHost</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

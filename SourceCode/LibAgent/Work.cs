@@ -14,19 +14,34 @@ namespace LibAgent
 
 
     public class Work
-    {
+    {   
         public delegate void Message(string str);
         public static event Message DebugInfoSend;
 
-        public static bool enable = true;
-        public static bool debug  = true;
-        public static int timeout = 10000;
+
+        public static bool enable;
+        private static bool debug;
+        private static int port;
+        private static string address;
+        private static int timeout;
 
 
         public static void Main(string[] Args)
         {
-            const int port = 8888;
-            const string address = "127.0.0.1";
+            ConfLib.LoadConfiguration confLoader = new ConfLib.LoadConfiguration(@"config.ini");
+            try
+            {
+                enable = true;
+                debug   = (confLoader.Read("Loging", "enable_log").ToLower() != "yes") ? true : false;
+                port    = int.Parse(confLoader.Read("agent_configuration", "server_port"));
+                address = confLoader.Read("agent_configuration", "server_ip");
+                timeout = int.Parse(confLoader.Read("agent_configuration", "timeout"));
+            }
+            catch(Exception ex)
+            {
+                SendMSG(ex.Message);
+            }
+
             TcpClient client = new TcpClient(address, port);
             NetworkStream stream = client.GetStream();
 
