@@ -29,7 +29,7 @@ namespace LibHost.Devices
             this.size = size;
             this.DeviceLocator = DeviceLocator;
 
-            string temp = (this.manufacturer + this.clock_speed.ToString() + this.memory_type.ToString() + this.form_factor.ToString() + this.size.ToString());
+            string temp = (this.manufacturer + this.clock_speed.ToString() + this.memory_type.ToString() + this.form_factor.ToString() + this.size.ToString() + this.DeviceLocator.ToString());
 
             this.hash = temp.GetHashCode();
         }
