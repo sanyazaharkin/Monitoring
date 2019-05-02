@@ -6,7 +6,7 @@ using System.Text;
 namespace LibHost
 {
     [Serializable]
-    public struct Process
+    public class Process
     {
         public int process_id;
         public string name;
@@ -15,6 +15,12 @@ namespace LibHost
         {
             this.process_id = 0;
             this.name = name ?? throw new ArgumentNullException(nameof(name));
+        }
+
+
+        public override string ToString()
+        {
+            return (name + "\n");
         }
     }
 }

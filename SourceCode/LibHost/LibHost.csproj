@@ -65,7 +65,7 @@
     <Compile Include="Devices\Device_NET.cs" />
     <Compile Include="Devices\Device_RAM.cs" />
     <Compile Include="Host.cs" />
-    <Compile Include="IDevice.cs" />
+    <Compile Include="Device.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,9 +9,9 @@ namespace TestingConsole
     {
         public static void Main(string[] args)
         {
-            LibAgent.Work.MSG += ShowMessage;
+            LibAgent.Work.DebugInfoSend += ShowMessage;
             LibHost.Host host = LibAgent.Work.GetHost();
-            
+            Console.WriteLine(host);
 
 
 

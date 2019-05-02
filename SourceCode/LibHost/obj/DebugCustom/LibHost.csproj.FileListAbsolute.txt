@@ -1,6 +1,5 @@
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\bin\DebugCustom\LibHost.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\bin\DebugCustom\LibHost.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\DebugCustom\LibHost.csprojAssemblyReference.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\DebugCustom\LibHost.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\DebugCustom\LibHost.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibHost\obj\DebugCustom\LibHost.pdb

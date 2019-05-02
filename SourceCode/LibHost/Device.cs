@@ -5,7 +5,10 @@ using System.Text;
 
 namespace LibHost
 {
-    public interface IDevice
+    public class Device
     {
+
+
+        
     }
 }

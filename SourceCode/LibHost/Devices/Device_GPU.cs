@@ -6,19 +6,38 @@ using System.Text;
 namespace LibHost.Devices
 {
     [Serializable]
-    public struct Device_GPU : IDevice
+    public class Device_GPU : Device
     {
         public int hash;
         public string name;
-        public long memory_size;
+        public uint memory_size;
+        public string device_type;
 
-        public Device_GPU(string name, long memory_size)
+
+        public Device_GPU(string name, uint memory_size)
         {
+            this.device_type = "GPU";
 
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.memory_size = memory_size;
             string temp = (this.name + this.memory_size.ToString());
+
             this.hash = temp.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            string result = string.Empty;
+            result += "\n-----------------------HDD------------------------";
+            result += "\nhash = " + this.hash;
+            result += "\nname = " + this.name;
+            result += "\nmemory_size = " + this.memory_size;
+            result += "\ndevice_type = " + this.device_type;
+
+            result += "\n--------------------------------------------------\n";
+
+
+            return result;
         }
     }
 }

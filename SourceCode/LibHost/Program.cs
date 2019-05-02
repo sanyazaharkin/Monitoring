@@ -6,7 +6,7 @@ using System.Text;
 namespace LibHost
 {
     [Serializable]
-    public struct Program
+    public class Program
     {
         public int program_id;
         public string name;
@@ -19,6 +19,13 @@ namespace LibHost
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.version = version ?? throw new ArgumentNullException(nameof(version));
             this.vendor = vendor ?? throw new ArgumentNullException(nameof(vendor));
+        }
+
+
+
+        public override string ToString()
+        {
+            return ("name: " + name + " version: " + vendor + " vendor: " + version + " \n");
         }
     }
 }
