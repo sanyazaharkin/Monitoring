@@ -18,7 +18,8 @@ namespace LibAgent
         public delegate void Message(string str);
         public static event Message DebugInfoSend;
 
-        public static bool eneble = true;
+        public static bool enable = true;
+        public static bool debug  = true;
         public static int timeout = 10000;
 
 
@@ -30,11 +31,30 @@ namespace LibAgent
             NetworkStream stream = client.GetStream();
 
             BinaryFormatter formatter = new BinaryFormatter();
-
-            while (eneble)
+            try
             {
-                formatter.Serialize(stream, GetHost());
-                System.Threading.Thread.Sleep(timeout);
+                while (enable)
+                {
+                    while (enable & client.Connected)
+                    {
+                        formatter.Serialize(stream, GetHost());
+                        System.Threading.Thread.Sleep(timeout);
+                    }
+
+                    if (!client.Connected)
+                    {
+                        stream = client.GetStream();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                SendMSG(ex.Message);
+            }
+            finally
+            {
+                stream.Close();
+                client.Close();
             }
         }
 
@@ -42,10 +62,10 @@ namespace LibAgent
         {
             
             string hostname = Environment.MachineName;
-            string os_version = Execute_WMI_Query("SELECT Caption FROM Win32_OperatingSystem", "Caption")[0];
+            string os_version = Execute_WMI_Query("SELECT * FROM Win32_OperatingSystem", "Caption")[0];
 
             string bios_version = string.Empty;
-            foreach (string item in Execute_WMI_QueryArray("SELECT BIOSVersion FROM Win32_BIOS", "BIOSVersion")[0])
+            foreach (string item in Execute_WMI_QueryArray("SELECT * FROM Win32_BIOS", "BIOSVersion")[0])
             {
                 bios_version += item + " ";
             }
@@ -65,9 +85,9 @@ namespace LibAgent
         {
             List<LibHost.Device> result = new List<LibHost.Device>();
 
-            foreach (LibHost.Devices.Device_MB item in Search_MB()) {result.Add(item);}
+            foreach (LibHost.Devices.Device_MB  item in Search_MB())  {result.Add(item);}
             foreach (LibHost.Devices.Device_CPU item in Search_CPU()) {result.Add(item);}
-            foreach (LibHost.Devices.Device_RAM item in Search_RAM()){result.Add(item);}
+            foreach (LibHost.Devices.Device_RAM item in Search_RAM()) {result.Add(item);}
             foreach (LibHost.Devices.Device_HDD item in Search_HDD()) {result.Add(item);}
             foreach (LibHost.Devices.Device_NET item in Search_NET()) {result.Add(item);}
             foreach (LibHost.Devices.Device_GPU item in Search_GPU()) {result.Add(item);}
@@ -79,7 +99,7 @@ namespace LibAgent
         {
             List<LibHost.Program> result = new List<LibHost.Program>();
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name, Version, Vendor FROM Win32_Product");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
             try
             {
                 foreach (ManagementObject obj in searcher.Get())
@@ -125,7 +145,7 @@ namespace LibAgent
         {
             List<LibHost.Devices.Device_MB> result = new List<LibHost.Devices.Device_MB>();
                        
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name,manufacturer,model,product,SerialNumber FROM WIN32_BaseBoard");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_BaseBoard");
             try
             {
                 SendMSG("Выполняется запрос: " + searcher.Query.QueryString);
@@ -207,7 +227,7 @@ namespace LibAgent
         {
             List<LibHost.Devices.Device_HDD> result = new List<LibHost.Devices.Device_HDD>();
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Caption,Description,Size,FreeSpace,FileSystem FROM Win32_LogicalDisk WHERE DriveType=3");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_LogicalDisk WHERE DriveType=3");
             try
             {
                 SendMSG("Выполняется запрос: " + searcher.Query.QueryString);
@@ -235,7 +255,7 @@ namespace LibAgent
         {
             List<LibHost.Devices.Device_NET> result = new List<LibHost.Devices.Device_NET>();
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT macaddress,ipaddress,DefaultIPGateway,description FROM Win32_NetworkAdapterConfiguration WHERE IPenabled = true");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapterConfiguration WHERE IPenabled = true");
             try
             {
                 SendMSG("Выполняется запрос: " + searcher.Query.QueryString);
@@ -270,7 +290,7 @@ namespace LibAgent
         {
             List<LibHost.Devices.Device_GPU> result = new List<LibHost.Devices.Device_GPU>();
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name,AdapterRAM FROM Win32_VideoController");
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_VideoController");
             try
             {
                 SendMSG("Выполняется запрос: " + searcher.Query.QueryString);
@@ -339,7 +359,7 @@ namespace LibAgent
 
         public static void SendMSG(string str)
         {
-            if (DebugInfoSend != null) DebugInfoSend(str);
+            if (debug & DebugInfoSend != null) DebugInfoSend(str);
         }
     }
 }

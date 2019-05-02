@@ -1,6 +1,5 @@
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\bin\Debug\UserInterface.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\bin\Debug\UserInterface.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\Debug\UserInterface.csprojAssemblyReference.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\Debug\UserInterface.Properties.Resources.resources
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\Debug\UserInterface.csproj.GenerateResource.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\Debug\UserInterface.csproj.CoreCompileInputs.cache

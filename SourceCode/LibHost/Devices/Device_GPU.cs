@@ -28,7 +28,7 @@ namespace LibHost.Devices
         public override string ToString()
         {
             string result = string.Empty;
-            result += "\n-----------------------HDD------------------------";
+            result += "\n-----------------------GPU------------------------";
             result += "\nhash = " + this.hash;
             result += "\nname = " + this.name;
             result += "\nmemory_size = " + this.memory_size;

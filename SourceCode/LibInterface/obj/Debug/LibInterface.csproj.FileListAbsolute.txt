@@ -1,6 +1,5 @@
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\Debug\LibInterface.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\Debug\LibInterface.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\Debug\LibInterface.csprojAssemblyReference.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\Debug\LibInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\Debug\LibInterface.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\Debug\LibInterface.pdb

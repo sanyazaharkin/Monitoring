@@ -1,0 +1,6 @@
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\bin\Release\ConfLib.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\bin\Release\ConfLib.pdb
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Release\ConfLib.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Release\ConfLib.csproj.CoreCompileInputs.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Release\ConfLib.dll
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Release\ConfLib.pdb
