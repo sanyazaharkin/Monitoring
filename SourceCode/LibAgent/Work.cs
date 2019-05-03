@@ -53,11 +53,8 @@ namespace LibAgent
 
                         while (enable & client.Connected)
                         {   
-                            SendMSG("Выполняется сбор метрик");
-                            LibHost.Host host = GetHost();
-
                             SendMSG("Выполняется сериализация и отправка");
-                            formatter.Serialize(stream, host);
+                            formatter.Serialize(stream, GetHost());
                             SendMSG("Отправленно!!! Сон " + (double)(timeout / 1000) + "сек.");
                             System.Threading.Thread.Sleep(timeout);
                         }
@@ -388,7 +385,7 @@ namespace LibAgent
             }
 
             return result;
-        }
+        } //провкерка сервера на доступность
 
 
         public static void SendMSG(string str)

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Specialized;
+using MySql.Data.MySqlClient;
 
 
 namespace LibSrv
@@ -22,9 +23,11 @@ namespace LibSrv
         private static IPAddress Listen_address;
         private static int timeout;
         private static TcpListener listener = null;
+
         public  static Queue<LibHost.Host> queue_to_db = new Queue<LibHost.Host>();
-        private static QueueHandler queueHandler = new QueueHandler(Work.queue_to_db);
-        private static Thread queueHandlerThread = new Thread(new ThreadStart(queueHandler.Main));
+        private static QueueHandler queueHandler;
+        private static Thread queueHandlerThread;
+
 
         public static void Main(object sAll)
         {
@@ -38,7 +41,12 @@ namespace LibSrv
             Listen_port = int.Parse(config["Listen_port"]);
             timeout = int.Parse(config["timeout"]);
 
-            
+
+            queueHandler = new QueueHandler(queue_to_db, Get_db_conn_string_from_config(config));
+            queueHandlerThread = new Thread(new ThreadStart(queueHandler.Main));
+
+
+        
 
             try
             {
@@ -76,6 +84,19 @@ namespace LibSrv
 
         }
 
+
+        private static MySqlConnection Get_db_conn_string_from_config(NameValueCollection config)
+        {
+
+            string db_server_port = config["db_server_port"];
+            string db_server_ip = config["db_server_ip"];
+            string db_name = config["db_name"];
+            string db_user = config["db_user"];
+            string db_pass = config["db_pass"];
+
+            return new MySqlConnection("Server=" + db_server_ip + ";Database=" + db_name + ";port=" + db_server_port + ";User Id=" + db_user + ";password=" + db_pass); 
+
+        }
         public static void SendMSG(string str)
         {
             if (debug & DebugInfoSend != null) DebugInfoSend(str);
