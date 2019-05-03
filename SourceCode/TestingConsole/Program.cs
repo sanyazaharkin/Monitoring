@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace TestingConsole
 {
@@ -12,7 +14,8 @@ namespace TestingConsole
             LibAgent.Work.DebugInfoSend += ShowMessage;
             //LibHost.Host host = LibAgent.Work.GetHost();
             //Console.WriteLine(host);
-            LibAgent.Work.Main(args);
+            NameValueCollection sAll = ConfigurationManager.AppSettings;
+            LibAgent.Work.Main(sAll);
 
 
 

@@ -6,8 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Net;
 using System.Net.Sockets;
 using System.Management;
-using Microsoft.Win32;
-using System.Runtime.InteropServices;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace LibAgent
 {
@@ -22,43 +22,42 @@ namespace LibAgent
         public static bool enable;
         private static bool debug;
         private static int port;
-        private static string address;
+        private static IPAddress address;
         private static int timeout;
+        private static NetworkStream stream;
 
-
-        public static void Main(string[] Args)
+        public static void Main(object sAll)
         {
-            try
-            {
-                enable = true;
-                debug   = true;
-                address = "192.168.0.200";
-                port    = 8888;
-                timeout = 10000;
-            }
-            catch(Exception ex)
-            {
-                SendMSG(ex.Message);
-            }
+            NameValueCollection config = (NameValueCollection)sAll;
 
-            TcpClient client = new TcpClient(address, port);
-            NetworkStream stream = client.GetStream();
+            enable = true;
+            debug   = config["enable_log"].ToLower()=="yes"?true:false;
+            address = IPAddress.Parse(config["server_ip"]);
+            port    = int.Parse(config["server_port"]);
+            timeout = int.Parse(config["timeout"]);
+
+
+            TcpClient client = new TcpClient();
+            
 
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
                 while (enable)
                 {
+                    if (ServerIsAvailible(address, port) & !client.Connected)
+                    {
+                        client.Connect(address,port);
+                        stream = client.GetStream();                        
+                    }
+
                     while (enable & client.Connected)
                     {
                         formatter.Serialize(stream, GetHost());
                         System.Threading.Thread.Sleep(timeout);
                     }
 
-                    if (!client.Connected)
-                    {
-                        stream = client.GetStream();
-                    }
+                    System.Threading.Thread.Sleep(timeout);
                 }
             }
             catch (Exception ex)
@@ -367,6 +366,25 @@ namespace LibAgent
             {
                 SendMSG(ex.Message);
             }
+            return result;
+        }
+
+        private static bool ServerIsAvailible(IPAddress ip, int port)
+        {
+            bool result;
+            try
+            {
+                TcpClient newClient = new TcpClient();
+                IPEndPoint endPoint = new IPEndPoint(ip, port);
+                newClient.Connect(endPoint);
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                SendMSG(ex.Message);
+                result = false;
+            }
+
             return result;
         }
 

@@ -5,3 +5,4 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\DebugCustom\A
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\DebugCustom\AgentConsole.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\DebugCustom\AgentConsole.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\DebugCustom\AgentConsole.pdb
+C:\Users\sanya\source\repos\Monitoring\Debug\AgentConsole\AgentConsole.exe.config

@@ -1,5 +1,6 @@
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\bin\DebugCustom\TestingConsole.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\bin\DebugCustom\TestingConsole.pdb
+C:\Users\sanya\source\repos\Monitoring\Debug\TestingConsole\TestingConsole.exe.config
 C:\Users\sanya\source\repos\Monitoring\Debug\TestingConsole\TestingConsole.exe
 C:\Users\sanya\source\repos\Monitoring\Debug\TestingConsole\TestingConsole.pdb
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\DebugCustom\TestingConsole.csprojAssemblyReference.cache
