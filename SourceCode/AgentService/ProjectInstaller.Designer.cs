@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this.ServiceAgentInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.AgentServiceInstaller1 = new System.ServiceProcess.ServiceInstaller();
             // 
             // serviceProcessInstaller1
             // 
@@ -38,23 +38,23 @@
             this.serviceProcessInstaller1.Username = null;
             this.serviceProcessInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.ServiceProcessInstaller1_AfterInstall);
             // 
-            // ServiceAgentInstaller1
+            // AgentServiceInstaller1
             // 
-            this.ServiceAgentInstaller1.ServiceName = "ServiceAgent";
-            this.ServiceAgentInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
-            this.ServiceAgentInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.ServiceAgentInstaller1_AfterInstall);
+            this.AgentServiceInstaller1.ServiceName = "AgentService";
+            this.AgentServiceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.AgentServiceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.ServiceAgentInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
             this.serviceProcessInstaller1,
-            this.ServiceAgentInstaller1});
+            this.AgentServiceInstaller1});
 
         }
 
         #endregion
 
         private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller ServiceAgentInstaller1;
+        private System.ServiceProcess.ServiceInstaller AgentServiceInstaller1;
     }
 }

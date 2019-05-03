@@ -3,3 +3,4 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCust
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.exe
+C:\Users\sanya\Source\Repos\Monitoring\Release\TestingConsole\TestingConsole.exe.config

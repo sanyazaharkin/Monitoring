@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace ServerService
 {

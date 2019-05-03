@@ -5,3 +5,4 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\DebugCustom\
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\DebugCustom\ServerService.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\DebugCustom\ServerService.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\DebugCustom\ServerService.pdb
+C:\Users\sanya\Source\Repos\Monitoring\Debug\ServerService\ServerService.exe.config

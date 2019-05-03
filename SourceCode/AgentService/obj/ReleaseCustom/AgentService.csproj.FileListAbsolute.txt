@@ -3,3 +3,7 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.exe
+C:\Users\sanya\Source\Repos\Monitoring\Release\AgentService\AgentService.exe.config
+C:\Users\sanya\Source\Repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.ProjectInstaller.resources
+C:\Users\sanya\Source\Repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.ServiceAgent.resources
+C:\Users\sanya\Source\Repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.csproj.GenerateResource.cache

@@ -19,11 +19,11 @@ namespace LibAgent
         public static event Message DebugInfoSend;
 
 
-        public static bool enable;
+        public  static bool enable;
         private static bool debug;
         private static int port;
-        private static IPAddress address;
         private static int timeout;
+        private static IPAddress address;
         private static NetworkStream stream;
 
         public static void Main(object sAll)
@@ -35,39 +35,41 @@ namespace LibAgent
             address = IPAddress.Parse(config["server_ip"]);
             port    = int.Parse(config["server_port"]);
             timeout = int.Parse(config["timeout"]);
-
-
-            TcpClient client = new TcpClient();
+            
             
 
             BinaryFormatter formatter = new BinaryFormatter();
-            try
+            while (enable)
             {
-                while (enable)
+                try
                 {
-                    if (ServerIsAvailible(address, port) & !client.Connected)
+                    using (TcpClient client = new TcpClient())
                     {
-                        client.Connect(address,port);
-                        stream = client.GetStream();                        
-                    }
+                        if (ServerIsAvailible(address, port) & !client.Connected)
+                        {
+                            client.Connect(address, port);
+                            stream = client.GetStream();
+                        }
 
-                    while (enable & client.Connected)
-                    {
-                        formatter.Serialize(stream, GetHost());
-                        System.Threading.Thread.Sleep(timeout);
-                    }
+                        while (enable & client.Connected)
+                        {   
+                            SendMSG("Выполняется сбор метрик");
+                            LibHost.Host host = GetHost();
 
+                            SendMSG("Выполняется сериализация и отправка");
+                            formatter.Serialize(stream, host);
+                            SendMSG("Отправленно!!! Сон " + (double)(timeout / 1000) + "сек.");
+                            System.Threading.Thread.Sleep(timeout);
+                        }
+                    }
                     System.Threading.Thread.Sleep(timeout);
                 }
-            }
-            catch (Exception ex)
-            {
-                SendMSG(ex.Message);
-            }
-            finally
-            {
-                stream.Close();
-                client.Close();
+
+                catch (Exception ex)
+                {
+                    SendMSG(ex.Message);
+                }
+
             }
         }
 
@@ -381,8 +383,8 @@ namespace LibAgent
             }
             catch (Exception ex)
             {
-                SendMSG(ex.Message);
                 result = false;
+                SendMSG(ex.Message);                
             }
 
             return result;

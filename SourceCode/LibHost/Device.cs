@@ -5,6 +5,7 @@ using System.Text;
 
 namespace LibHost
 {
+    [Serializable]
     public class Device
     {
 

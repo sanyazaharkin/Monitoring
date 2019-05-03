@@ -6,7 +6,7 @@ using System.Text;
 namespace LibHost
 {
     [Serializable]
-    public struct Host
+    public class Host
     {
         public int host_id;
         public string hostname;
