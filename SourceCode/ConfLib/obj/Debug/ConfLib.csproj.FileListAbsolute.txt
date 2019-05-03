@@ -1,5 +1,0 @@
-C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\bin\Debug\ConfLib.dll
-C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\bin\Debug\ConfLib.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Debug\ConfLib.csproj.CoreCompileInputs.cache
-C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Debug\ConfLib.dll
-C:\Users\sanya\source\repos\Monitoring\SourceCode\ConfLib\obj\Debug\ConfLib.pdb

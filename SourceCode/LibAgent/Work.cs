@@ -28,14 +28,13 @@ namespace LibAgent
 
         public static void Main(string[] Args)
         {
-            ConfLib.LoadConfiguration confLoader = new ConfLib.LoadConfiguration(@"config.ini");
             try
             {
                 enable = true;
-                debug   = (confLoader.Read("Loging", "enable_log").ToLower() != "yes") ? true : false;
-                port    = int.Parse(confLoader.Read("agent_configuration", "server_port"));
-                address = confLoader.Read("agent_configuration", "server_ip");
-                timeout = int.Parse(confLoader.Read("agent_configuration", "timeout"));
+                debug   = true;
+                address = "192.168.0.200";
+                port    = 8888;
+                timeout = 10000;
             }
             catch(Exception ex)
             {

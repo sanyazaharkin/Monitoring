@@ -3,7 +3,3 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\DebugCustom\L
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\DebugCustom\ConfLib.dll
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\DebugCustom\ConfLib.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.csprojAssemblyReference.cache
-C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.csproj.CopyComplete

@@ -59,19 +59,5 @@ namespace LibAgent.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на [agent_configuration]
-        ///server_ip=192.168.0.200
-        ///server_port=8888
-        ///timeout=10000
-        ///[Loging]
-        ///enable_log=yes;.
-        /// </summary>
-        internal static string config {
-            get {
-                return ResourceManager.GetString("config", resourceCulture);
-            }
-        }
     }
 }
