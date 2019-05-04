@@ -14,7 +14,6 @@ namespace LibHost.Devices
         public string name;
         public string product;
         public string serial_number;
-        public string device_type;
 
 
         public Device_MB( string manufacturer, string model, string name, string product, string serial_number)

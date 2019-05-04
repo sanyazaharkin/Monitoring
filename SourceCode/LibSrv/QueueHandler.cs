@@ -12,11 +12,11 @@ namespace LibSrv
     public class QueueHandler
     {
         Queue<LibHost.Host> queue = null;
-        MySqlConnection connection = null;
-        public QueueHandler(Queue<LibHost.Host> queue, NameValueCollection config)
+        NameValueCollection config;
+        public QueueHandler(Queue<LibHost.Host> queue, NameValueCollection conf)
         {
             this.queue = queue;
-            this.connection = Get_db_conn_string_from_config(config);
+            config = conf;
         }
 
 
@@ -27,9 +27,8 @@ namespace LibSrv
             {
                 while (this.queue.Count > 0)
                 {
-                    LibHost.Host host = queue.Dequeue();
-                    DB_Writer _Writer = new DB_Writer(host, connection);
-                    Task write = new Task(() => _Writer.start_write());
+                    LibHost.Host host = queue.Dequeue();                    
+                    Task write = new Task(() => DB_Writer.start_write(host, Get_db_conn_string_from_config(config)));
                     write.Start();                    
                 }
                 Thread.Sleep(100);

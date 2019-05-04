@@ -11,7 +11,7 @@ namespace LibHost.Devices
         public int hash;
         public string name;
         public uint memory_size;
-        public string device_type;
+
 
 
         public Device_GPU(string name, uint memory_size)

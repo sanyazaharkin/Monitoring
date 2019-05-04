@@ -13,7 +13,7 @@ namespace LibHost.Devices
         public string name;
         public int cores;
         public int clock_speed;
-        public string device_type;
+
 
         public Device_CPU(string manufacturer, string name,int cores, int clock_speed)
         {

@@ -15,7 +15,7 @@ namespace LibHost.Devices
         public string description;
         public List<System.Net.IPAddress> Gateway;
         public List<System.Net.IPAddress> iPAddresses;
-        public string device_type;
+
 
 
         public Device_NET( string mac, string description, List<System.Net.IPAddress> gateway, List<System.Net.IPAddress> iPAddresses)

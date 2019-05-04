@@ -14,7 +14,7 @@ namespace LibHost.Devices
         public ulong size;
         public ulong free_space;
         public string file_system;
-        public string device_type;
+
 
 
         public Device_HDD( string description, string caption, ulong size, ulong free_space, string file_system)

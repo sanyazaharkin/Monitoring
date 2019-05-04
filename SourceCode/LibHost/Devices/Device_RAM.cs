@@ -15,7 +15,7 @@ namespace LibHost.Devices
         public int form_factor;
         public ulong size;
         public string DeviceLocator;
-        public string device_type;
+
 
 
         public Device_RAM(string manufacturer, int clock_speed,  int memory_type, int form_factor, ulong size, string DeviceLocator)
