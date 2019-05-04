@@ -33,7 +33,7 @@ namespace LibSrv
         {
             NameValueCollection config = (NameValueCollection)sAll;
 
-            queueHandlerThread.Start();
+           
 
             enable = true;
             debug = config["enable_log"].ToLower() == "yes" ? true : false;
@@ -42,11 +42,12 @@ namespace LibSrv
             timeout = int.Parse(config["timeout"]);
 
 
-            queueHandler = new QueueHandler(queue_to_db, Get_db_conn_string_from_config(config));
+            queueHandler = new QueueHandler(queue_to_db, config);
             queueHandlerThread = new Thread(new ThreadStart(queueHandler.Main));
+            
+            queueHandlerThread.Start();
 
 
-        
 
             try
             {
@@ -85,18 +86,7 @@ namespace LibSrv
         }
 
 
-        private static MySqlConnection Get_db_conn_string_from_config(NameValueCollection config)
-        {
 
-            string db_server_port = config["db_server_port"];
-            string db_server_ip = config["db_server_ip"];
-            string db_name = config["db_name"];
-            string db_user = config["db_user"];
-            string db_pass = config["db_pass"];
-
-            return new MySqlConnection("Server=" + db_server_ip + ";Database=" + db_name + ";port=" + db_server_port + ";User Id=" + db_user + ";password=" + db_pass); 
-
-        }
         public static void SendMSG(string str)
         {
             if (debug & DebugInfoSend != null) DebugInfoSend(str);

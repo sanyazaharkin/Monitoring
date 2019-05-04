@@ -5,4 +5,3 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\DebugCustom\
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\DebugCustom\UserInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\DebugCustom\UserInterface.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\UserInterface\obj\DebugCustom\UserInterface.pdb
-C:\Users\sanya\Source\Repos\Monitoring\SourceCode\UserInterface\obj\DebugCustom\UserInterface.csprojAssemblyReference.cache
