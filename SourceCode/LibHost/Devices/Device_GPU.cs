@@ -8,7 +8,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_GPU : Device
     {
-        public int hash;
+        
         public string name;
         public uint memory_size;
 

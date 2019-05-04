@@ -10,7 +10,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_NET : Device
     {
-        public int hash;
+        
         public string mac;
         public string description;
         public List<System.Net.IPAddress> Gateway;

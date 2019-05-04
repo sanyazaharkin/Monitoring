@@ -8,7 +8,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_RAM : Device
     {
-        public int hash;
+        
         public string manufacturer;
         public int clock_speed;
         public int memory_type;

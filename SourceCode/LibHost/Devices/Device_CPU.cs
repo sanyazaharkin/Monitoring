@@ -8,7 +8,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_CPU : Device
     {
-        public int hash;
+        
         public string manufacturer;
         public string name;
         public int cores;

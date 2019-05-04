@@ -8,7 +8,9 @@ namespace LibHost
     [Serializable]
     public class Device
     {
+        public int id;
         public string device_type;
+        public int hash;
 
         public override string ToString()
         {

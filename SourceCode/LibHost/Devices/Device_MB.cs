@@ -8,7 +8,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_MB : Device
     {
-        public int hash;
+       
         public string manufacturer;
         public string model;
         public string name;

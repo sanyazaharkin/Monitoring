@@ -8,7 +8,7 @@ namespace LibHost.Devices
     [Serializable]
     public class Device_HDD : Device
     {
-        public int hash;
+       
         public string description;
         public string caption;
         public ulong size;
@@ -27,7 +27,7 @@ namespace LibHost.Devices
             this.free_space = free_space;
             this.file_system = file_system ?? throw new ArgumentNullException(nameof(file_system));
 
-            string temp = (this.description + this.caption + this.size.ToString() + this.free_space.ToString() + this.file_system.ToString());
+            string temp = (this.description + this.caption + this.size.ToString() + this.file_system.ToString());
 
             this.hash = temp.GetHashCode();
         }
