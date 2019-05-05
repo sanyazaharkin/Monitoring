@@ -9,9 +9,11 @@ namespace LibHost
     public class Program
     {
         public int program_id;
+        public int hash;
         public string name;
         public string version;
         public string vendor;
+        
 
         public Program(string name, string version, string vendor)
         {
@@ -19,6 +21,9 @@ namespace LibHost
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.version = version ?? throw new ArgumentNullException(nameof(version));
             this.vendor = vendor ?? throw new ArgumentNullException(nameof(vendor));
+            string temp = (this.name + this.version + this.vendor );
+
+            this.hash = temp.GetHashCode();
         }
 
 

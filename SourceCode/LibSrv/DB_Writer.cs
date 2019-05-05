@@ -8,9 +8,7 @@ using MySql.Data.MySqlClient;
 namespace LibSrv
 {
     public class DB_Writer 
-    {
-
-        private static int os_id = 0;
+    {       
 
         public static void start_write(LibHost.Host host, MySqlConnection connection)
         {
@@ -19,8 +17,6 @@ namespace LibSrv
 
             try
             {
-                //if (connection != null & connection.State == System.Data.ConnectionState.Closed) connection.Open();
-
                 sql_SELECT_Execute("START TRANSACTION;", connection);
 
                 #region запись в таблицу hosts
@@ -30,16 +26,7 @@ namespace LibSrv
                 }
                 else
                 {
-                    if (sql_SELECT_Execute("SELECT EXISTS (SELECT id FROM operating_systems WHERE system='" + host.os_version + "');", connection) == "1")
-                    {
-                        os_id = int.Parse(sql_SELECT_Execute("SELECT id FROM operating_systems WHERE system='" + host.os_version + "';", connection));
-                    }
-                    else
-                    {
-                        os_id = int.Parse(sql_SELECT_Execute("INSERT INTO operating_systems(system) VALUES ('" + host.os_version + "'); SELECT LAST_INSERT_ID();", connection));
-                    }
-
-                    host.host_id = int.Parse(sql_SELECT_Execute("INSERT INTO hosts (hostname, operating_system, bios_version, state, last_update_time) VALUES ('" + host.hostname + "', " + os_id + ", '" + host.bios_version + "', " + host.state + ", '" + DateTime.Now + "') ON DUPLICATE KEY UPDATE last_update_time=VALUES(last_update_time); SELECT LAST_INSERT_ID();", connection));
+                    host.host_id = int.Parse(sql_SELECT_Execute("INSERT INTO hosts (hostname, operating_system, bios_version, state, last_update_time) VALUES ('" + host.hostname + "', " + GetOperatingSystemID(host.os_version,connection) + ", '" + host.bios_version + "', " + host.state + ", '" + DateTime.Now + "') ON DUPLICATE KEY UPDATE last_update_time=VALUES(last_update_time); SELECT LAST_INSERT_ID();", connection));
                 }
                 #endregion
 
@@ -49,22 +36,22 @@ namespace LibSrv
                     switch (item.device_type.ToUpper())
                     {
                         case ("MB"):
-                            Write_to_DB((LibHost.Devices.Device_MB)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_MB)item,  connection);
                             break;
                         case ("CPU"):
-                            Write_to_DB((LibHost.Devices.Device_CPU)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_CPU)item,  connection);
                             break;
                         case ("RAM"):
-                            Write_to_DB((LibHost.Devices.Device_RAM)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_RAM)item,  connection);
                             break;
                         case ("HDD"):
-                            Write_to_DB((LibHost.Devices.Device_HDD)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_HDD)item,  connection);
                             break;
                         case ("NET"):
-                            Write_to_DB((LibHost.Devices.Device_NET)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_NET)item,  connection);
                             break;
                         case ("GPU"):
-                            Write_to_DB((LibHost.Devices.Device_GPU)item, host.host_id, connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_GPU)item,  connection);
                             break;
                     }
 
@@ -80,12 +67,32 @@ namespace LibSrv
 
                 #endregion
 
+                #region запись информации о процессах
+
+                sql_SELECT_Execute("DELETE FROM host_processes WHERE host_id=" + host.host_id + ";", connection);
+                foreach (LibHost.Process process in host.Processes)
+                {
+                    Write_Process_to_DB(process, connection);
+                    sql_SELECT_Execute("INSERT INTO host_processes (host_id, process_id) VALUES (" + host.host_id + ", " + process.process_id + ");", connection);
+                }
+
+                #endregion
+
+                #region запись информации о программах
+
+                sql_SELECT_Execute("DELETE FROM host_programs WHERE host_id=" + host.host_id + ";", connection);
+                foreach (LibHost.Program program in host.Programs)
+                {
+                    Write_Programm_to_DB(program, connection);
+                    sql_SELECT_Execute("INSERT INTO host_programs (host_id, program_id) VALUES (" + host.host_id + ", " + program.program_id + ");", connection);
+                }
+
+                #endregion
 
                 sql_SELECT_Execute("COMMIT;", connection);
             }
             catch (Exception ex)
-            {
-                
+            {                
                 Work.SendMSG(ex.Message);
             }
             finally
@@ -109,7 +116,7 @@ namespace LibSrv
         }
 
 
-        private static void Write_to_DB(LibHost.Devices.Device_MB device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_MB device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM device_mb WHERE device_name_hash=" + device.hash + ");", connection)=="0")
@@ -118,7 +125,7 @@ namespace LibSrv
             }
         }
 
-        private static void Write_to_DB(LibHost.Devices.Device_CPU device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_CPU device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM device_cpu WHERE device_name_hash=" + device.hash + ");", connection) == "0")
@@ -127,7 +134,7 @@ namespace LibSrv
             }
         }
 
-        private static void Write_to_DB(LibHost.Devices.Device_RAM device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_RAM device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM device_ram WHERE device_name_hash=" + device.hash + ");", connection) == "0")
@@ -136,7 +143,7 @@ namespace LibSrv
             }
         }
 
-        private static void Write_to_DB(LibHost.Devices.Device_HDD device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_HDD device, MySqlConnection connection)
         {
 
             device.id = GetDeviceID(device.hash, device.device_type, connection);
@@ -150,7 +157,7 @@ namespace LibSrv
             }
         }
 
-        private static void Write_to_DB(LibHost.Devices.Device_NET device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_NET device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             int gateway_id = GetGatewayID(device.Gateway[0], connection);
@@ -168,7 +175,7 @@ namespace LibSrv
             
         }
 
-        private static void Write_to_DB(LibHost.Devices.Device_GPU device, int host_id, MySqlConnection connection)
+        private static void Write_Device_to_DB(LibHost.Devices.Device_GPU device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM device_gpu WHERE device_name_hash=" + device.hash + ");", connection) == "0")
@@ -178,6 +185,34 @@ namespace LibSrv
             }
         }
 
+        private static void Write_Process_to_DB(LibHost.Process process, MySqlConnection connection)
+        {
+            
+            if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM processes WHERE name='" + process.name + "');", connection) == "1")
+            {
+                process.process_id = int.Parse(sql_SELECT_Execute("SELECT id FROM processes WHERE name='" + process.name + "';", connection));
+            }
+            else
+            {
+                process.process_id = int.Parse(sql_SELECT_Execute("INSERT INTO processes (name) VALUES ('" + process.name + "'); SELECT LAST_INSERT_ID();", connection));
+            }
+
+        }
+
+
+        private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection)
+        {
+
+            if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ");", connection) == "1")
+            {
+                programm.program_id = int.Parse(sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ";", connection));
+            }
+            else
+            {
+                programm.program_id = int.Parse(sql_SELECT_Execute("INSERT INTO programs (name_version_hash, name, version, vendor_id) VALUES (" + programm.hash + ",'" + programm.name + "','" + programm.version + "', " + GetVendorID(programm.vendor, connection) + " ); SELECT LAST_INSERT_ID();", connection));
+            }
+
+        }
 
 
 
@@ -219,5 +254,35 @@ namespace LibSrv
                 return int.Parse(sql_SELECT_Execute("INSERT IGNORE INTO net_gateways (gateway) VALUES ('" + gw.ToString() + "'); SELECT LAST_INSERT_ID();", connection));
             }
         }
+
+        private static int GetVendorID(string vendor, MySqlConnection connection)
+        {
+
+            if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM vendors WHERE vendor='" + vendor + "');", connection) == "1")
+            {
+                return int.Parse(sql_SELECT_Execute("SELECT id FROM vendors WHERE vendor='" + vendor + "';", connection));
+            }
+            else
+            {
+                return int.Parse(sql_SELECT_Execute("INSERT INTO vendors (vendor) VALUES ('" + vendor + "'); SELECT LAST_INSERT_ID();", connection));
+            }
+        }
+
+        private static int GetOperatingSystemID(string os_version, MySqlConnection connection)
+        {
+
+            if (sql_SELECT_Execute("SELECT EXISTS (SELECT id FROM operating_systems WHERE system='" + os_version + "');", connection) == "1")
+            {
+                return int.Parse(sql_SELECT_Execute("SELECT id FROM operating_systems WHERE system='" + os_version + "';", connection));
+            }
+            else
+            {
+                return int.Parse(sql_SELECT_Execute("INSERT INTO operating_systems(system) VALUES ('" + os_version + "'); SELECT LAST_INSERT_ID();", connection));
+            }
+        }
+
+
+
+
     }
 }
