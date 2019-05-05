@@ -30,35 +30,41 @@ namespace LibSrv
                 }
                 #endregion
 
+                sql_SELECT_Execute("COMMIT;", connection);
+
                 #region запись информации о железе
                 foreach (LibHost.Device item in host.Devices)
                 {
                     switch (item.device_type.ToUpper())
                     {
                         case ("MB"):
-                            Write_Device_to_DB((LibHost.Devices.Device_MB)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_MB)item, connection);
                             break;
                         case ("CPU"):
-                            Write_Device_to_DB((LibHost.Devices.Device_CPU)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_CPU)item, connection);
                             break;
                         case ("RAM"):
-                            Write_Device_to_DB((LibHost.Devices.Device_RAM)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_RAM)item, connection);
                             break;
                         case ("HDD"):
-                            Write_Device_to_DB((LibHost.Devices.Device_HDD)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_HDD)item, connection);
                             break;
                         case ("NET"):
-                            Write_Device_to_DB((LibHost.Devices.Device_NET)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_NET)item, connection);
                             break;
                         case ("GPU"):
-                            Write_Device_to_DB((LibHost.Devices.Device_GPU)item,  connection);
+                            Write_Device_to_DB((LibHost.Devices.Device_GPU)item, connection);
                             break;
                     }
+                }
 
-                    if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM host_devices WHERE device_id=" + item.id + " AND host_id=" + host.host_id + ");", connection) == "0")
-                    {
-                        sql_SELECT_Execute("INSERT INTO host_devices (device_id,host_id) VALUES (" + item.id + "," + host.host_id + "); SELECT LAST_INSERT_ID();", connection); // вынести потом это в другое место
-                    }
+                SearchChangeDevices(host,connection);
+
+                sql_SELECT_Execute("DELETE FROM host_devices WHERE host_id=" + host.host_id + ";", connection); // вынести потом это в другое место
+
+                foreach (LibHost.Device item in host.Devices)
+                {
+                    sql_SELECT_Execute("INSERT INTO host_devices (device_id,host_id) VALUES (" + item.id + "," + host.host_id + "); SELECT LAST_INSERT_ID();", connection); // вынести потом это в другое место
                 }
 
 
@@ -66,6 +72,8 @@ namespace LibSrv
 
 
                 #endregion
+
+                sql_SELECT_Execute("COMMIT;", connection);
 
                 #region запись информации о процессах
 
@@ -78,14 +86,25 @@ namespace LibSrv
 
                 #endregion
 
+                sql_SELECT_Execute("COMMIT;", connection);
+
                 #region запись информации о программах
+
+                foreach (LibHost.Program program in host.Programs)
+                {
+                    Write_Programm_to_DB(program, connection);                    
+                }
+
+                SearchChangePrograms(host, connection);
 
                 sql_SELECT_Execute("DELETE FROM host_programs WHERE host_id=" + host.host_id + ";", connection);
                 foreach (LibHost.Program program in host.Programs)
-                {
-                    Write_Programm_to_DB(program, connection);
+                {                    
                     sql_SELECT_Execute("INSERT INTO host_programs (host_id, program_id) VALUES (" + host.host_id + ", " + program.program_id + ");", connection);
                 }
+
+
+
 
                 #endregion
 
@@ -113,6 +132,14 @@ namespace LibSrv
             object answer = command.ExecuteScalar();
             Work.SendMSG("Получен ответ:" + (answer != null ? answer.ToString() : "-1"));
             return answer!=null?answer.ToString():"-1";
+        }
+
+        private static MySqlDataReader Get_Table_From_DB(string query,MySqlConnection connection)
+        {
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            MySqlDataReader reader = command.ExecuteReader();
+            return reader;
         }
 
 
@@ -202,7 +229,6 @@ namespace LibSrv
 
         private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection)
         {
-
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ");", connection) == "1")
             {
                 programm.program_id = int.Parse(sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ";", connection));
@@ -211,7 +237,6 @@ namespace LibSrv
             {
                 programm.program_id = int.Parse(sql_SELECT_Execute("INSERT INTO programs (name_version_hash, name, version, vendor_id) VALUES (" + programm.hash + ",'" + programm.name + "','" + programm.version + "', " + GetVendorID(programm.vendor, connection) + " ); SELECT LAST_INSERT_ID();", connection));
             }
-
         }
 
 
@@ -282,6 +307,82 @@ namespace LibSrv
         }
 
 
+
+        private static void SearchChangeDevices(LibHost.Host host, MySqlConnection connection)
+        {
+            List<int> oldDeviceHash = new List<int>();
+            List<int> newDeviceHash = new List<int>();
+
+            MySqlDataReader reader = Get_Table_From_DB("SELECT device_name_hash FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id=" + host.host_id + ");", connection);
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    oldDeviceHash.Add(reader.GetInt32("device_name_hash"));
+                }
+            }
+
+            reader.Close();
+
+
+            foreach (LibHost.Device item in host.Devices)
+            {
+                newDeviceHash.Add(item.hash);
+            }
+
+            List<int> mountedDevices = newDeviceHash.Except(oldDeviceHash).ToList();
+            List<int> unmountedDevices = oldDeviceHash.Except(newDeviceHash).ToList();
+
+            foreach (int item in mountedDevices)
+            {
+                sql_SELECT_Execute("INSERT INTO host_device_history (host_id, device_id,action,looked,date) VALUES (" + host.host_id + "," + sql_SELECT_Execute("SELECT id FROM devices WHERE device_name_hash=" + item + "; ", connection).ToString() + ", 1, 0, '" + DateTime.Now + "');", connection);
+            }
+
+            foreach (int item in unmountedDevices)
+            {
+                sql_SELECT_Execute("INSERT INTO host_device_history (host_id, device_id,action,looked,date) VALUES (" + host.host_id + "," + sql_SELECT_Execute("SELECT id FROM devices WHERE device_name_hash=" + item + "; ", connection).ToString() + ", 0, 0, '" + DateTime.Now + "');", connection);
+            }
+
+        }
+
+        private static void SearchChangePrograms(LibHost.Host host, MySqlConnection connection)
+        {
+            List<int> oldProgramHash = new List<int>();
+            List<int> newProgramHash = new List<int>();
+
+            MySqlDataReader reader = Get_Table_From_DB("SELECT name_version_hash FROM programs WHERE id IN (SELECT program_id FROM host_programs WHERE host_id=" + host.host_id + ");", connection);
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    oldProgramHash.Add(reader.GetInt32("name_version_hash"));
+                }
+            }
+
+            reader.Close();
+
+
+            foreach (LibHost.Device item in host.Devices)
+            {
+                newProgramHash.Add(item.hash);
+            }
+
+            List<int> installedPrograms = newProgramHash.Except(oldProgramHash).ToList();
+            List<int> uninstalledPrograms = oldProgramHash.Except(newProgramHash).ToList();
+
+            foreach (int item in installedPrograms)
+            {
+                sql_SELECT_Execute("INSERT INTO host_program_history (host_id, program_id,action,looked,date) VALUES (" + host.host_id + "," + sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection).ToString() + ", 1, 0, '" + DateTime.Now + "');", connection);
+            }
+
+            foreach (int item in uninstalledPrograms)
+            {
+                sql_SELECT_Execute("INSERT INTO host_program_history (host_id, program_id,action,looked,date) VALUES (" + host.host_id + "," + sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection).ToString() + ", 0, 0, '" + DateTime.Now + "');", connection);
+            }
+
+        }
 
 
     }
