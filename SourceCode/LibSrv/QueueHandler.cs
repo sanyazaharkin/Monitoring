@@ -46,7 +46,6 @@ namespace LibSrv
             string db_pass = config["db_pass"];
 
             return new MySqlConnection("Server=" + db_server_ip + ";Database=" + db_name + ";port=" + db_server_port + ";User Id=" + db_user + ";password=" + db_pass + ";CharSet=utf8");
-
         }
     }
 }

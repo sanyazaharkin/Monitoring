@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerConsole", "SourceCode
 		{F17B59D5-419E-4EBC-A023-E798E6C9CB15} = {F17B59D5-419E-4EBC-A023-E798E6C9CB15}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitoringInterface", "SourceCode\MonitoringInterface\MonitoringInterface.csproj", "{6F7BF775-B579-46CC-BBC2-DABB3029F256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,14 @@ Global
 		{02A18B28-6228-4DE5-A116-2A22513EFBE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02A18B28-6228-4DE5-A116-2A22513EFBE3}.ReleaseCustom|Any CPU.ActiveCfg = ReleaseCustom|Any CPU
 		{02A18B28-6228-4DE5-A116-2A22513EFBE3}.ReleaseCustom|Any CPU.Build.0 = ReleaseCustom|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.DebugCustom|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.DebugCustom|Any CPU.Build.0 = Debug|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.ReleaseCustom|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7BF775-B579-46CC-BBC2-DABB3029F256}.ReleaseCustom|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
