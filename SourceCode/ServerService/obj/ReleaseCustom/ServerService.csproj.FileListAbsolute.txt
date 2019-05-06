@@ -1,6 +1,8 @@
+C:\Users\sanya\source\repos\Monitoring\Release\ServerService\ServerService.exe.config
 C:\Users\sanya\source\repos\Monitoring\Release\ServerService\ServerService.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.ProjectInstaller.resources
+C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.csproj.GenerateResource.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerService\obj\ReleaseCustom\ServerService.exe
-C:\Users\sanya\Source\Repos\Monitoring\Release\ServerService\ServerService.exe.config

@@ -106,6 +106,8 @@ namespace LibSrv
 
                 #endregion
 
+                UpdateHostState(host, connection);
+
                 sql_SELECT_Execute("COMMIT;", connection);
             }
             catch (Exception ex)
@@ -396,7 +398,18 @@ namespace LibSrv
         }
 
 
+        private static void UpdateHostState(LibHost.Host host, MySqlConnection connection)
+        {
+            if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM host_device_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1")
+            {
+                sql_SELECT_Execute("UPDATE hosts SET state=2 WHERE id = " + host.host_id + "; ", connection);
+            }
 
+            if (sql_SELECT_Execute("SELECT EXISTS(SELECT * FROM host_program_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1")
+            {
+                sql_SELECT_Execute("UPDATE hosts SET state=3 WHERE id = " + host.host_id + "; ", connection);
+            }
+        }
 
     }
 }

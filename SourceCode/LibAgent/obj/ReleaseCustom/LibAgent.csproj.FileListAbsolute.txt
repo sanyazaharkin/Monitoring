@@ -1,8 +1,8 @@
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\bin\ReleaseCustom\LibAgent.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\bin\ReleaseCustom\LibHost.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.csprojAssemblyReference.cache
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.Properties.Resources.resources
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.csproj.GenerateResource.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.dll
-C:\Users\sanya\Source\Repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.Properties.Resources.resources
-C:\Users\sanya\Source\Repos\Monitoring\SourceCode\LibAgent\obj\ReleaseCustom\LibAgent.csproj.GenerateResource.cache

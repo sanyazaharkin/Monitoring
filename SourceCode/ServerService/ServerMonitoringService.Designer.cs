@@ -1,6 +1,6 @@
 ﻿namespace ServerService
 {
-    partial class Service1
+    partial class ServerMonitoringService
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.ServiceName = "ServerMonitoringService";
         }
 
         #endregion
