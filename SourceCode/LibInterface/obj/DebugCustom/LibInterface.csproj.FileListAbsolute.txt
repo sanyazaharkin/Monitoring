@@ -3,3 +3,4 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\bin\DebugCustom\L
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.dll
 C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.pdb
+C:\Users\sanya\source\repos\Monitoring\SourceCode\LibInterface\obj\DebugCustom\LibInterface.csprojAssemblyReference.cache

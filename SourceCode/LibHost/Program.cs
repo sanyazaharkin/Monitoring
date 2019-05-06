@@ -30,7 +30,7 @@ namespace LibHost
 
         public override string ToString()
         {
-            return ("name: " + name + " version: " + vendor + " vendor: " + version + " \n");
+            return ("hash: " + this.hash + " name: " + name + " version: " + vendor + " vendor: " + version + " \n");
         }
     }
 }

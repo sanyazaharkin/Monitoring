@@ -30,7 +30,6 @@ namespace LibSrv
                 }
                 #endregion
 
-                sql_SELECT_Execute("COMMIT;", connection);
 
                 #region запись информации о железе
                 foreach (LibHost.Device item in host.Devices)
@@ -73,8 +72,7 @@ namespace LibSrv
 
                 #endregion
 
-                sql_SELECT_Execute("COMMIT;", connection);
-
+ 
                 #region запись информации о процессах
 
                 sql_SELECT_Execute("DELETE FROM host_processes WHERE host_id=" + host.host_id + ";", connection);
@@ -86,14 +84,14 @@ namespace LibSrv
 
                 #endregion
 
-                sql_SELECT_Execute("COMMIT;", connection);
-
+    
                 #region запись информации о программах
 
                 foreach (LibHost.Program program in host.Programs)
                 {
                     Write_Programm_to_DB(program, connection);                    
                 }
+
 
                 SearchChangePrograms(host, connection);
 
@@ -225,8 +223,7 @@ namespace LibSrv
             }
 
         }
-
-
+        
         private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection)
         {
             if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ");", connection) == "1")
@@ -364,7 +361,7 @@ namespace LibSrv
             reader.Close();
 
 
-            foreach (LibHost.Device item in host.Devices)
+            foreach (LibHost.Program item in host.Programs)
             {
                 newProgramHash.Add(item.hash);
             }
@@ -374,7 +371,21 @@ namespace LibSrv
 
             foreach (int item in installedPrograms)
             {
-                sql_SELECT_Execute("INSERT INTO host_program_history (host_id, program_id,action,looked,date) VALUES (" + host.host_id + "," + sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection).ToString() + ", 1, 0, '" + DateTime.Now + "');", connection);
+                string program_id = "0";
+                if (sql_SELECT_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + item + "); ", connection) == "1")
+                {
+                    program_id = sql_SELECT_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection);
+                }
+                else
+                {
+
+                        Write_Programm_to_DB(host.Programs.Find(x => x.hash == item), connection);
+                    
+                }
+
+                sql_SELECT_Execute("INSERT INTO host_program_history (host_id, program_id,action,looked,date) VALUES (" + host.host_id + "," + program_id + ", 1, 0, '" + DateTime.Now + "');", connection);
+
+
             }
 
             foreach (int item in uninstalledPrograms)
@@ -383,6 +394,8 @@ namespace LibSrv
             }
 
         }
+
+
 
 
     }
