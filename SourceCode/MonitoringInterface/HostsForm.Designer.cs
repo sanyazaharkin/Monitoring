@@ -65,6 +65,7 @@
             this.HostsGrid.ReadOnly = true;
             this.HostsGrid.Size = new System.Drawing.Size(700, 337);
             this.HostsGrid.TabIndex = 0;
+            this.HostsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HostsGrid_CellContentClick);
             // 
             // id
             // 

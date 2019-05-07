@@ -17,6 +17,8 @@ namespace LibSrv
         {
             this.queue = queue;
             config = conf;
+
+            Work.SendMSG("Запущен обработчик очереди");
         }
 
 
@@ -29,6 +31,7 @@ namespace LibSrv
                 {
                     LibHost.Host host = queue.Dequeue();                    
                     Task write = new Task(() => DB_Writer.start_write(host, Get_db_conn_string_from_config(config)));
+                    Work.SendMSG("ПИшем в базу информацию об узле: " + host.hostname);
                     write.Start();                    
                 }
                 Thread.Sleep(100);
