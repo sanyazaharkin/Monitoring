@@ -38,6 +38,8 @@
             this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SetTimerPeriod = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.HostsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SetTimerPeriod)).BeginInit();
             this.SuspendLayout();
@@ -110,7 +112,7 @@
             // SetTimerPeriod
             // 
             this.SetTimerPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetTimerPeriod.Location = new System.Drawing.Point(822, 329);
+            this.SetTimerPeriod.Location = new System.Drawing.Point(716, 329);
             this.SetTimerPeriod.Maximum = new decimal(new int[] {
             360,
             0,
@@ -131,11 +133,36 @@
             0});
             this.SetTimerPeriod.ValueChanged += new System.EventHandler(this.SetTimerPeriod_ValueChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(735, 306);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(110, 17);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "Автообновление";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(772, 331);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "период (сек.)";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // HostsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 361);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.SetTimerPeriod);
             this.Controls.Add(this.HostsGrid);
             this.MinimumSize = new System.Drawing.Size(900, 400);
@@ -145,6 +172,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.HostsGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SetTimerPeriod)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -159,6 +187,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn state;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NumericUpDown SetTimerPeriod;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -2,7 +2,6 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\bin\Releas
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\bin\Release\MonitoringInterface.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\bin\Release\MonitoringInterface.pdb
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\bin\Release\MySql.Data.dll
-C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csprojAssemblyReference.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.HostsForm.resources
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.Properties.Resources.resources
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csproj.GenerateResource.cache

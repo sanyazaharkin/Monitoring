@@ -27,14 +27,14 @@ namespace MonitoringInterface
         {
             InitializeComponent();
             db_conn = Get_db_conn((NameValueCollection)sAll);
-            timer1.Interval = (int)SetTimerPeriod.Value*1000;
-            timer1.Enabled = true;
-            
+            checkBox1.Checked = true;
+            timer1.Enabled = checkBox1.Checked;
+            timer1.Interval = (int)SetTimerPeriod.Value * 1000;            
         }
 
 
 
-        private void UpdateHostsGrid()
+        public void UpdateHostsGrid()
         {
             HostsGrid.Rows.Clear();
 
@@ -118,6 +118,7 @@ namespace MonitoringInterface
         private void HostsForm_Load(object sender, EventArgs e)
         {
             UpdateHostsGrid();
+            
         }
 
         private void HostsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -126,6 +127,13 @@ namespace MonitoringInterface
 
             HostForm hostForm = new HostForm(int.Parse(obj.Rows[e.RowIndex].Cells[0].Value.ToString()), obj.Rows[e.RowIndex].Cells[1].Value.ToString(), this);
             hostForm.Show();
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            timer1.Enabled = checkBox1.Checked;
+            SetTimerPeriod.Enabled = checkBox1.Checked;
+            checkBox1.Update();
         }
     }
 }

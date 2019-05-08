@@ -25,15 +25,24 @@ namespace MonitoringInterface
             this.parentForm = parentForm;
             host_id = id;
             hostname = name;
+            
             Text = "Узел: " + hostname;
         }
 
 
         private void HostForm_Load(object sender, EventArgs e)
         {
+            UpdateForm();
+        }
+
+
+        private void UpdateForm()
+        {
             UpdateDeviceTree();
             UpdateProgramTree();
-            UpdateHostsGrid();
+            UpdateDeviceHistorysGrid();
+            UpdateProgramHistorysGrid();
+            UpdateProcessLabel();
         }
 
         private void UpdateDeviceTree()
@@ -44,7 +53,7 @@ namespace MonitoringInterface
             {
                 DevicesTree.Nodes.Add("MB", "Материнская плата");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
                 {
                     string result = string.Empty;
 
@@ -200,7 +209,7 @@ namespace MonitoringInterface
 
             if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_programs WHERE host_id=" + host_id + ");", 1)[0][0] == "1")
             {
-                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "))", 2))
+                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "));", 2))
                 {
                     ProgramTree.Nodes.Add(vendors[0], vendors[1]);
 
@@ -213,38 +222,119 @@ namespace MonitoringInterface
 
             ProgramTree.Update();
         }
-        private void UpdateHostsGrid()
+        private void UpdateDeviceHistorysGrid()
         {
             DevicesHistoryGrid.Rows.Clear();
 
-            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, device_id, action, looked, date FROM host_device_history WHERE host_id=" + host_id + "", 5))
+            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, device_id, action, looked, date FROM host_device_history WHERE host_id=" + host_id + ";", 5))
             {
-                row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + "", 1)[0][0];
-                //row[1] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[1] + "", 1)[0][0];
+                row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
 
+
+                string device_type = parentForm.GetTableFromDB("SELECT device_type FROM devices WHERE id = " + row[1] + ";", 1)[0][0];
+
+                switch (device_type)
+                {
+                    case ("MB"):
+                        row[1] = parentForm.GetTableFromDB("SELECT product FROM device_mb WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+                        break;
+
+                    case ("CPU"):
+                        row[1] = parentForm.GetTableFromDB("SELECT name FROM device_cpu WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                        break;
+
+                    case ("RAM"):
+                        row[1] = "Модуль памяти";
+                        break;
+
+                    case ("HDD"):
+                        row[1] = parentForm.GetTableFromDB("SELECT caption FROM device_hdd WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                        break;
+
+                    case ("NET"):
+                        row[1] = parentForm.GetTableFromDB("SELECT description FROM device_net WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                        break;
+
+                    case ("GPU"):
+                        row[1] = parentForm.GetTableFromDB("SELECT name FROM device_gpu WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                        break;
+
+                }
+
+                row[2] = row[2] == "1" ? "Смонтированно" : "Демонтированно";
+                row[3] = row[3] == "1" ? "Да" : "Нет";
 
 
                 DevicesHistoryGrid.Rows.Add(row);
             }
-
-            //for (int i = 0; i < DevicesHistoryGrid.Rows.Count; i++)
-            //{
-            //    if (DevicesHistoryGrid.Rows[i].Cells[DevicesHistoryGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "норма")
-            //    {
-            //        DevicesHistoryGrid.Rows[i].Cells[DevicesHistoryGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.ForestGreen;
-            //    }
-            //    else if (DevicesHistoryGrid.Rows[i].Cells[DevicesHistoryGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "ошибка")
-            //    {
-            //        DevicesHistoryGrid.Rows[i].Cells[DevicesHistoryGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.OrangeRed;
-            //    }
-            //    else
-            //    {
-            //        DevicesHistoryGrid.Rows[i].Cells[DevicesHistoryGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.Yellow;
-            //    }
-            //}
-
-
             DevicesHistoryGrid.Update();
+        }
+
+        private void UpdateProgramHistorysGrid()
+        {
+            ProgramsHistoryGrid.Rows.Clear();
+
+            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, program_id, action, looked, date FROM host_program_history WHERE host_id=" + host_id + ";", 5))
+            {
+                row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
+                row[1] = parentForm.GetTableFromDB("SELECT name FROM programs WHERE id = " + row[1] + ";", 1)[0][0];
+
+
+                row[2] = row[2] == "1" ? "Установленно" : "Удалено";
+                row[3] = row[3] == "1" ? "Да" : "Нет";
+
+
+                ProgramsHistoryGrid.Rows.Add(row);
+            }
+            ProgramsHistoryGrid.Update();
+        }
+
+        private void UpdateProcessLabel()
+        {
+            string processes = string.Empty;
+
+            foreach (string[] process in  parentForm.GetTableFromDB("SELECT name FROM processes WHERE id IN (SELECT process_id FROM host_processes WHERE host_id=" + host_id + ");", 1))
+            {
+                listView1.Items.Add( process[0] + "\n");
+            }
+
+
+            listView1.Update();
+        }
+
+
+
+        private void UpdateButton_Click(object sender, EventArgs e)
+        {
+            UpdateForm();
+        }
+
+        private void DeleteHostButton_Click(object sender, EventArgs e)
+        {
+            parentForm.GetTableFromDB("DELETE FROM hosts WHERE id = " + host_id + "",1);
+            parentForm.UpdateHostsGrid();
+            Close();            
+        }
+
+        private void SetLookedButton1_Click(object sender, EventArgs e)
+        {
+            parentForm.GetTableFromDB("UPDATE host_device_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
+            parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
+            parentForm.UpdateHostsGrid();
+            UpdateForm();
+            
+        }
+
+        private void SetLookedButton2_Click(object sender, EventArgs e)
+        {
+            parentForm.GetTableFromDB("UPDATE host_program_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
+            parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
+            parentForm.UpdateHostsGrid();
+            UpdateForm();
         }
     }
 }
