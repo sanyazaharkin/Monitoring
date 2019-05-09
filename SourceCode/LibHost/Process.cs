@@ -14,7 +14,7 @@ namespace LibHost
         public Process(string name)
         {
             this.process_id = 0;
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            this.name = name ?? "-1";
         }
 
 

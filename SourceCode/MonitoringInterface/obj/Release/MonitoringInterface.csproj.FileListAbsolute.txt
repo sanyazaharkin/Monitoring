@@ -8,5 +8,7 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Releas
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.exe
-C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.pdb
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.HostForm.resources
+C:\Users\sanya\source\repos\Monitoring\Release\MonitoringInterface\MonitoringInterface.exe.config
+C:\Users\sanya\source\repos\Monitoring\Release\MonitoringInterface\MonitoringInterface.exe
+C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csprojAssemblyReference.cache

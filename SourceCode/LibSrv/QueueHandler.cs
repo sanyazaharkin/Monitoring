@@ -10,7 +10,7 @@ namespace LibSrv
 {
     public class QueueHandler
     {
-        Queue<LibHost.Host> queue = null;
+        Queue<LibHost.Host> queue;
         NameValueCollection config;
         public QueueHandler(Queue<LibHost.Host> queue, NameValueCollection conf)
         {
@@ -31,10 +31,10 @@ namespace LibSrv
                     LibHost.Host host = queue.Dequeue();
                     Work.SendMSG("ПИшем в базу информацию об узле: " + host.hostname);
                     DB_Writer.start_write(host, Get_db_conn_string_from_config(config));
-                   
-                             
+
+                    Thread.Sleep(50);
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
             }
 
         }

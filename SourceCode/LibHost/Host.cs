@@ -20,13 +20,13 @@ namespace LibHost
         public Host( string hostname, string os_version, string bios_version, int state, List<Device> devices, List<Process> processes, List<Program> programs)
         {
             this.host_id = 0;
-            this.hostname = hostname ?? throw new ArgumentNullException(nameof(hostname));
-            this.os_version = os_version ?? throw new ArgumentNullException(nameof(os_version));
-            this.bios_version = bios_version ?? throw new ArgumentNullException(nameof(bios_version));
+            this.hostname = hostname ?? "-1";
+            this.os_version = os_version ?? "-1";
+            this.bios_version = bios_version ?? "-1";
             this.state = state;
-            Devices = devices ?? throw new ArgumentNullException(nameof(devices));
-            Processes = processes ?? throw new ArgumentNullException(nameof(processes));
-            Programs = programs ?? throw new ArgumentNullException(nameof(programs));
+            Devices = devices ?? new List<Device>();
+            Processes = processes ?? new List<Process>();
+            Programs = programs ?? new List<Program>();
         }
 
         public override string ToString()

@@ -20,11 +20,11 @@ namespace LibHost.Devices
         {
             this.device_type = "MB";
 
-            this.manufacturer = manufacturer ?? throw new ArgumentNullException(nameof(manufacturer));
-            this.model = model ?? throw new ArgumentNullException(nameof(model));
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
-            this.product = product ?? throw new ArgumentNullException(nameof(product));
-            this.serial_number = serial_number ?? throw new ArgumentNullException(nameof(serial_number));
+            this.manufacturer = manufacturer ?? "-1";
+            this.model = model ?? "-1";
+            this.name = name ?? "-1";
+            this.product = product ?? "-1";
+            this.serial_number = serial_number ?? "-1";
 
             string temp = (this.manufacturer + this.model + this.name + this.product + this.serial_number);
 

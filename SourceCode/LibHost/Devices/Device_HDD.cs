@@ -21,11 +21,11 @@ namespace LibHost.Devices
         {
             this.device_type = "HDD";
 
-            this.description = description ?? throw new ArgumentNullException(nameof(description));
-            this.caption = caption ?? throw new ArgumentNullException(nameof(caption));
+            this.description = description ?? "-1";
+            this.caption = caption ?? "-1";
             this.size = size;
             this.free_space = free_space;
-            this.file_system = file_system ?? throw new ArgumentNullException(nameof(file_system));
+            this.file_system = file_system ?? "-1";
 
             string temp = (this.description + this.caption + this.size.ToString() + this.file_system.ToString());
 

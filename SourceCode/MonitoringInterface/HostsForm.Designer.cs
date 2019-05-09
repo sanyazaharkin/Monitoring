@@ -40,6 +40,7 @@
             this.SetTimerPeriod = new System.Windows.Forms.NumericUpDown();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.Update_Button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HostsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SetTimerPeriod)).BeginInit();
             this.SuspendLayout();
@@ -65,7 +66,7 @@
             this.HostsGrid.Margin = new System.Windows.Forms.Padding(1);
             this.HostsGrid.Name = "HostsGrid";
             this.HostsGrid.ReadOnly = true;
-            this.HostsGrid.Size = new System.Drawing.Size(700, 337);
+            this.HostsGrid.Size = new System.Drawing.Size(862, 316);
             this.HostsGrid.TabIndex = 0;
             this.HostsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HostsGrid_CellContentClick);
             // 
@@ -111,8 +112,8 @@
             // 
             // SetTimerPeriod
             // 
-            this.SetTimerPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetTimerPeriod.Location = new System.Drawing.Point(716, 329);
+            this.SetTimerPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SetTimerPeriod.Location = new System.Drawing.Point(271, 332);
             this.SetTimerPeriod.Maximum = new decimal(new int[] {
             360,
             0,
@@ -135,9 +136,9 @@
             // 
             // checkBox1
             // 
-            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(735, 306);
+            this.checkBox1.Location = new System.Drawing.Point(155, 332);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(110, 17);
             this.checkBox1.TabIndex = 2;
@@ -147,27 +148,40 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(772, 331);
+            this.label1.Location = new System.Drawing.Point(327, 336);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "период (сек.)";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // Update_Button1
+            // 
+            this.Update_Button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Update_Button1.Location = new System.Drawing.Point(12, 329);
+            this.Update_Button1.Name = "Update_Button1";
+            this.Update_Button1.Size = new System.Drawing.Size(137, 23);
+            this.Update_Button1.TabIndex = 4;
+            this.Update_Button1.Text = "Обновить";
+            this.Update_Button1.UseVisualStyleBackColor = true;
+            this.Update_Button1.Click += new System.EventHandler(this.Update_Button1_Click);
+            // 
             // HostsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 361);
+            this.Controls.Add(this.Update_Button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.SetTimerPeriod);
             this.Controls.Add(this.HostsGrid);
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(900, 400);
             this.Name = "HostsForm";
-            this.Text = "Hosts";
+            this.Text = "Список подключенных компьютеров";
             this.Load += new System.EventHandler(this.HostsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.HostsGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SetTimerPeriod)).EndInit();
@@ -189,6 +203,7 @@
         private System.Windows.Forms.NumericUpDown SetTimerPeriod;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button Update_Button1;
     }
 }
 

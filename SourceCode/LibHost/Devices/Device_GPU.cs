@@ -18,7 +18,7 @@ namespace LibHost.Devices
         {
             this.device_type = "GPU";
 
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            this.name = name ?? "-1";
             this.memory_size = memory_size;
             string temp = (this.name + this.memory_size.ToString());
 

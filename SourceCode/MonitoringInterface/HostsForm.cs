@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Collections.Specialized;
@@ -51,11 +46,11 @@ namespace MonitoringInterface
 
             for (int i = 0; i < HostsGrid.Rows.Count; i++)
             {
-                if (HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "норма")
+                if (HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "без изменений")
                 {
                     HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.ForestGreen;
                 }
-                else if (HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "ошибка")
+                else if (HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Value.ToString().ToLower() == "Ошибка")
                 {
                     HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.OrangeRed;
                 }
@@ -63,8 +58,6 @@ namespace MonitoringInterface
                 {
                     HostsGrid.Rows[i].Cells[HostsGrid.Rows[i].Cells.Count - 1].Style.BackColor = System.Drawing.Color.Yellow;
                 }
-
-
             }
 
 
@@ -82,6 +75,7 @@ namespace MonitoringInterface
             MySqlConnection connection = new MySqlConnection("Server=" + db_server_ip + ";Database=" + db_name + ";port=" + db_server_port + ";User Id=" + db_user + ";password=" + db_pass + ";CharSet=utf8");
             return connection;
         }
+
         public List<string[]> GetTableFromDB(string query,int Columns)
         {
             db_conn.Open();
@@ -98,7 +92,6 @@ namespace MonitoringInterface
                 {
                     result[result.Count - 1][i] = reader[i].ToString();
                 }
-
             }
             reader.Close();
             db_conn.Close();
@@ -117,8 +110,7 @@ namespace MonitoringInterface
 
         private void HostsForm_Load(object sender, EventArgs e)
         {
-            UpdateHostsGrid();
-            
+            UpdateHostsGrid();            
         }
 
         private void HostsGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -127,6 +119,7 @@ namespace MonitoringInterface
 
             HostForm hostForm = new HostForm(int.Parse(obj.Rows[e.RowIndex].Cells[0].Value.ToString()), obj.Rows[e.RowIndex].Cells[1].Value.ToString(), this);
             hostForm.Show();
+            this.Hide();
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -134,6 +127,11 @@ namespace MonitoringInterface
             timer1.Enabled = checkBox1.Checked;
             SetTimerPeriod.Enabled = checkBox1.Checked;
             checkBox1.Update();
+        }
+
+        private void Update_Button1_Click(object sender, EventArgs e)
+        {
+            UpdateHostsGrid();
         }
     }
 }

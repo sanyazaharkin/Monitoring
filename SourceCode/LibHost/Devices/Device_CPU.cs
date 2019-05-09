@@ -19,8 +19,8 @@ namespace LibHost.Devices
         {
             this.device_type = "CPU";
 
-            this.manufacturer = manufacturer ?? throw new ArgumentNullException(nameof(manufacturer));
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
+            this.manufacturer = manufacturer ?? "-1";
+            this.name = name ?? "-1";
             this.cores = cores;
             this.clock_speed = clock_speed;
             string temp = (this.manufacturer + this.name + this.cores.ToString() + this.clock_speed.ToString());

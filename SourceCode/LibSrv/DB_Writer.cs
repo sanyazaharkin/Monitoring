@@ -95,7 +95,7 @@ namespace LibSrv
 
                 SearchChangePrograms(host, connection);
 
-                sql_Query_Execute("DELETE FROM host_programs WHERE host_id=" + host.host_id + ";", connection);
+                
                 foreach (LibHost.Program program in host.Programs)
                 {                    
                     sql_Query_Execute("INSERT INTO host_programs (host_id, program_id) VALUES (" + host.host_id + ", " + program.program_id + ");", connection);
@@ -306,7 +306,6 @@ namespace LibSrv
         }
 
 
-
         private static void SearchChangeDevices(LibHost.Host host, MySqlConnection connection)
         {
             List<int> oldDeviceHash = new List<int>();
@@ -362,6 +361,7 @@ namespace LibSrv
 
             reader.Close();
 
+            sql_Query_Execute("DELETE FROM host_programs WHERE host_id=" + host.host_id + ";", connection);
 
             foreach (LibHost.Program item in host.Programs)
             {

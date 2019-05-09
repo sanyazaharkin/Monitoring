@@ -22,7 +22,7 @@ namespace LibHost.Devices
         {
             this.device_type = "RAM";
 
-            this.manufacturer = manufacturer ?? throw new ArgumentNullException(nameof(manufacturer));
+            this.manufacturer = manufacturer ?? "-1";
             this.clock_speed = clock_speed;            
             this.memory_type = memory_type;
             this.form_factor = form_factor;

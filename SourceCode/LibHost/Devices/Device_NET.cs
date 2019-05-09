@@ -22,10 +22,10 @@ namespace LibHost.Devices
         {
             this.device_type = "NET";
 
-            this.mac = mac ?? throw new ArgumentNullException(nameof(mac));
-            this.description = description ?? throw new ArgumentNullException(nameof(description));
-            Gateway = gateway ?? throw new ArgumentNullException(nameof(gateway));
-            this.iPAddresses = iPAddresses ?? throw new ArgumentNullException(nameof(iPAddresses));
+            this.mac = mac ?? "-1";
+            this.description = description ?? "-1";
+            Gateway = gateway ?? new List<IPAddress>();
+            this.iPAddresses = iPAddresses ?? new List<IPAddress>();
 
             string temp = (this.mac + this.description);
 

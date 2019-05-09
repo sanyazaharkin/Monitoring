@@ -18,9 +18,9 @@ namespace LibHost
         public Program(string name, string version, string vendor)
         {
             this.program_id = 0;
-            this.name = name ?? throw new ArgumentNullException(nameof(name));
-            this.version = version ?? throw new ArgumentNullException(nameof(version));
-            this.vendor = vendor ?? throw new ArgumentNullException(nameof(vendor));
+            this.name = name ?? "-1";
+            this.version = version ?? "-1";
+            this.vendor = vendor ?? "-1";
             string temp = (this.name + this.version + this.vendor );
 
             this.hash = temp.GetHashCode();

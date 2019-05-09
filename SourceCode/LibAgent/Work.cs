@@ -111,17 +111,49 @@ namespace LibAgent
         {
             List<LibHost.Program> result = new List<LibHost.Program>();
 
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Product");
             try
             {
-                foreach (ManagementObject obj in searcher.Get())
+                string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+                using (Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(registry_key))
                 {
-                    string name     = (string)obj["Name"] ?? "-1";
-                    string version  = (string)obj["Version"] ?? "-1";
-                    string vendor   = (string)obj["Vendor"] ?? "-1";
+                    foreach (string subkey_name in key.GetSubKeyNames())
+                    {
+                        using (Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(subkey_name))
+                        {
+                            string name = (string)subkey.GetValue("DisplayName");
+                            string version = (string)subkey.GetValue("DisplayVersion");
+                            string vendor = (string)subkey.GetValue("Publisher");
 
-                    result.Add(new LibHost.Program(name , version, vendor));
+                            if ((name != null) & (version != null) & (vendor != null))
+                            {
+                                result.Add(new LibHost.Program(name, version, vendor));
+                            }
+                        }
+                    }
                 }
+
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    registry_key = @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
+                    using (Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(registry_key))
+                    {
+                        foreach (string subkey_name in key.GetSubKeyNames())
+                        {
+                            using (Microsoft.Win32.RegistryKey subkey = key.OpenSubKey(subkey_name))
+                            {
+                                string name = (string)subkey.GetValue("DisplayName");
+                                string version = (string)subkey.GetValue("DisplayVersion");
+                                string vendor = (string)subkey.GetValue("Publisher");
+
+                                if ((name != null) & (version != null) & (vendor != null))
+                                {
+                                    result.Add(new LibHost.Program(name, version, vendor));
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
