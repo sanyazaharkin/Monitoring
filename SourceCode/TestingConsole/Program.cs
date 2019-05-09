@@ -1,31 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using System.Configuration;
-using System.Collections.Specialized;
 
-namespace TestingConsole
+class Program
 {
-    public class Program
+    [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+    static extern int MsiGetProductInfo(string product, string property, [Out] StringBuilder valueBuf, ref int len);
+
+    [DllImport("msi.dll", SetLastError = true)]
+    static extern int MsiEnumProducts(int iProductIndex, StringBuilder lpProductBuf);
+
+    static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        StringBuilder sbProductCode = new StringBuilder(39);
+        int iIdx = 0;
+        while (0 == MsiEnumProducts(iIdx++, sbProductCode))
         {
-            LibAgent.Work.DebugInfoSend += ShowMessage;
-            //LibHost.Host host = LibAgent.Work.GetHost();
-            //Console.WriteLine(host);
-            NameValueCollection sAll = ConfigurationManager.AppSettings;
-            LibAgent.Work.Main(sAll);
+            int productNameLen = 512;
+            StringBuilder sbProductName = new StringBuilder(productNameLen);
+
+            MsiGetProductInfo(sbProductCode.ToString(), "ProductName", sbProductName, ref productNameLen);
 
 
+            int installDirLen = 1024;
+            StringBuilder sbInstallDir = new StringBuilder(installDirLen);
 
-            Console.ReadLine();
+            MsiGetProductInfo(sbProductCode.ToString(), "InstallLocation", sbInstallDir, ref installDirLen);
+
+            Console.WriteLine("ProductName {0}: {1}", sbProductName, sbInstallDir);
+            
         }
 
+        Console.ReadKey();
 
-        public static void ShowMessage(string str)
-        {
-            Console.WriteLine(str);
-        }
     }
 }

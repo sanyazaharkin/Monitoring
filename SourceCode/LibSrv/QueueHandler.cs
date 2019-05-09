@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Collections.Specialized;
 
@@ -29,10 +28,11 @@ namespace LibSrv
             {
                 while (this.queue.Count > 0)
                 {
-                    LibHost.Host host = queue.Dequeue();                    
-                    Task write = new Task(() => DB_Writer.start_write(host, Get_db_conn_string_from_config(config)));
+                    LibHost.Host host = queue.Dequeue();
                     Work.SendMSG("ПИшем в базу информацию об узле: " + host.hostname);
-                    write.Start();                    
+                    DB_Writer.start_write(host, Get_db_conn_string_from_config(config));
+                   
+                             
                 }
                 Thread.Sleep(100);
             }

@@ -226,7 +226,7 @@ namespace MonitoringInterface
         {
             DevicesHistoryGrid.Rows.Clear();
 
-            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, device_id, action, looked, date FROM host_device_history WHERE host_id=" + host_id + ";", 5))
+            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, device_id, action, looked, date FROM host_device_history WHERE host_id=" + host_id + " ORDER BY id DESC;", 5))
             {
                 row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
 
@@ -278,7 +278,7 @@ namespace MonitoringInterface
         {
             ProgramsHistoryGrid.Rows.Clear();
 
-            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, program_id, action, looked, date FROM host_program_history WHERE host_id=" + host_id + ";", 5))
+            foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, program_id, action, looked, date FROM host_program_history WHERE host_id=" + host_id + " ORDER BY id DESC;", 5))
             {
                 row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
                 row[1] = parentForm.GetTableFromDB("SELECT name FROM programs WHERE id = " + row[1] + ";", 1)[0][0];

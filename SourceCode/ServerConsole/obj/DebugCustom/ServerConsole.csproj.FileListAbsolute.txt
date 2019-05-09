@@ -1,3 +1,4 @@
+C:\Users\sanya\source\repos\Monitoring\Debug\ServerConsole\ServerConsole.exe.config
 C:\Users\sanya\source\repos\Monitoring\Debug\ServerConsole\ServerConsole.exe
 C:\Users\sanya\source\repos\Monitoring\Debug\ServerConsole\ServerConsole.pdb
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\DebugCustom\ServerConsole.csprojAssemblyReference.cache
@@ -5,4 +6,3 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\DebugCustom\
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\DebugCustom\ServerConsole.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\DebugCustom\ServerConsole.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\ServerConsole\obj\DebugCustom\ServerConsole.pdb
-C:\Users\sanya\Source\Repos\Monitoring\Debug\ServerConsole\ServerConsole.exe.config

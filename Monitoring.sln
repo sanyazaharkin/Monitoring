@@ -32,8 +32,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerService", "SourceCode
 		{F17B59D5-419E-4EBC-A023-E798E6C9CB15} = {F17B59D5-419E-4EBC-A023-E798E6C9CB15}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "SourceCode\UserInterface\UserInterface.csproj", "{024CC624-7384-4A04-AC74-7963E2B4CE4F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibInterface", "SourceCode\LibInterface\LibInterface.csproj", "{D1A28ECD-F5B5-46DA-AE5E-7BAE7254D922}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerConsole", "SourceCode\ServerConsole\ServerConsole.csproj", "{02A18B28-6228-4DE5-A116-2A22513EFBE3}"
@@ -107,14 +105,6 @@ Global
 		{A0A9D7EC-0492-4DCB-B2A0-C8DBF8899568}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0A9D7EC-0492-4DCB-B2A0-C8DBF8899568}.ReleaseCustom|Any CPU.ActiveCfg = ReleaseCustom|Any CPU
 		{A0A9D7EC-0492-4DCB-B2A0-C8DBF8899568}.ReleaseCustom|Any CPU.Build.0 = ReleaseCustom|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.DebugCustom|Any CPU.ActiveCfg = DebugCustom|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.DebugCustom|Any CPU.Build.0 = DebugCustom|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.ReleaseCustom|Any CPU.ActiveCfg = ReleaseCustom|Any CPU
-		{024CC624-7384-4A04-AC74-7963E2B4CE4F}.ReleaseCustom|Any CPU.Build.0 = ReleaseCustom|Any CPU
 		{D1A28ECD-F5B5-46DA-AE5E-7BAE7254D922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1A28ECD-F5B5-46DA-AE5E-7BAE7254D922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A28ECD-F5B5-46DA-AE5E-7BAE7254D922}.DebugCustom|Any CPU.ActiveCfg = DebugCustom|Any CPU
