@@ -301,7 +301,7 @@ namespace MonitoringInterface
         private void UpdateProcessLabel()
         {
             string processes = string.Empty;
-
+            listView1.Clear();
             foreach (string[] process in  parentForm.GetTableFromDB("SELECT name FROM processes WHERE id IN (SELECT process_id FROM host_processes WHERE host_id=" + host_id + ");", 1))
             {
                 listView1.Items.Add( process[0] + "\n");
@@ -377,7 +377,7 @@ namespace MonitoringInterface
 
         private List<string> GenerateReport()
         {
-            List<string> result =  new List<string>();
+            List<string> result = new List<string>();
             result.Add("===================Общая информация===================");
             foreach (string[] item in parentForm.GetTableFromDB("SELECT hostname, operating_system, bios_version FROM hosts WHERE id=" + host_id + ";", 3))
             {
@@ -423,7 +423,7 @@ namespace MonitoringInterface
             }
             if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT device_type FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id = " + host_id + ") AND device_type = 'RAM');", 1)[0][0] == "1")
             {
-               result.Add("===================Память===================");
+                result.Add("===================Память===================");
 
                 foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, clock_speed, memory_type, form_factor,size FROM device_ram WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='RAM' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
                 {
@@ -500,6 +500,91 @@ namespace MonitoringInterface
                         "  name: {0}" +
                         "  memory_size: {1:#,##}MB", name, memory_size));
                 }
+            }
+
+            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_programs WHERE host_id=" + host_id + ");", 1)[0][0] == "1")
+            {
+                result.Add("===================Установленное ПО===================");
+
+                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "));", 2))
+                {
+                    foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor_id=" + vendors[0] + " AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
+                    {
+                        result.Add(programs[1] + " Version: " + programs[2]);
+                    }
+                }
+            }
+
+
+            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_device_history WHERE host_id=" + host_id + ");", 1)[0][0] == "1")
+            {
+                result.Add(("===================История изменений списка оборудования==================="));
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, device_id, action, looked, date FROM host_device_history WHERE host_id=" + host_id + " ORDER BY id DESC;", 5))
+                {
+                    row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
+
+
+                    string device_type = parentForm.GetTableFromDB("SELECT device_type FROM devices WHERE id = " + row[1] + ";", 1)[0][0];
+
+                    switch (device_type)
+                    {
+                        case ("MB"):
+                            row[1] = parentForm.GetTableFromDB("SELECT product FROM device_mb WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+                            break;
+
+                        case ("CPU"):
+                            row[1] = parentForm.GetTableFromDB("SELECT name FROM device_cpu WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                            break;
+
+                        case ("RAM"):
+                            row[1] = "Модуль памяти";
+                            break;
+
+                        case ("HDD"):
+                            row[1] = parentForm.GetTableFromDB("SELECT caption FROM device_hdd WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                            break;
+
+                        case ("NET"):
+                            row[1] = parentForm.GetTableFromDB("SELECT description FROM device_net WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                            break;
+
+                        case ("GPU"):
+                            row[1] = parentForm.GetTableFromDB("SELECT name FROM device_gpu WHERE device_name_hash IN(SELECT device_name_hash FROM devices WHERE id = " + row[1] + ");", 1)[0][0];
+
+                            break;
+
+                    }
+
+                    row[2] = row[2] == "1" ? "Смонтированно" : "Демонтированно";
+                    row[3] = row[3] == "1" ? "Да" : "Нет";
+
+
+                   result.Add("host_id "+ row[0] +", device_id "+ row[1] +", Действие " + row[2] + ", date " + row[4] );
+                }
+            }
+
+
+
+            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_program_history WHERE host_id=" + host_id + ");", 1)[0][0] == "1")
+            {
+                result.Add(("===================История изменений списка ПО==================="));
+
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT host_id, program_id, action, looked, date FROM host_program_history WHERE host_id=" + host_id + " ORDER BY id DESC;", 5))
+                {
+                    row[0] = parentForm.GetTableFromDB("SELECT hostname FROM hosts WHERE id = " + row[0] + ";", 1)[0][0];
+                    row[1] = parentForm.GetTableFromDB("SELECT name FROM programs WHERE id = " + row[1] + ";", 1)[0][0];
+
+
+                    row[2] = row[2] == "1" ? "Установленно" : "Удалено";
+                    row[3] = row[3] == "1" ? "Да" : "Нет";
+
+
+                    result.Add("host_id " + row[0] + ", program_id " + row[1] + ", Действие " + row[2] + ", date " + row[4]);
+                }
+                
             }
 
 
