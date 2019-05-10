@@ -1,29 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration;
-using System.Collections.Specialized;
 
 namespace AgentConsole
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main(string[] args) //точка входа, метод запускаемый по умолчанию
         {
-            LibAgent.Work.DebugInfoSend += ShowMessage;
-
-            NameValueCollection sAll = ConfigurationManager.AppSettings;
-            LibAgent.Work.Main(sAll);
-
-
-
-
-            Console.ReadLine();
+            LibAgent.Work.DebugInfoSend += ShowMessage; // добавляем обработчик события             
+            LibAgent.Work.Main(ConfigurationManager.AppSettings); // и запускаем главный метод агента, в параметры передаем настройки (коллекция Имя-Значение) которые прочитаны из XML файлика рядом с программой       
         }
 
 
-        public static void ShowMessage(string str)
+        public static void ShowMessage(string str) //метод для вывода информации в консоль
         {
             Console.WriteLine(str);
         }

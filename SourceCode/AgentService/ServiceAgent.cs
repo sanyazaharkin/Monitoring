@@ -19,20 +19,20 @@ namespace AgentService
             InitializeComponent();
         }
 
-        protected override void OnStart(string[] args)
+        protected override void OnStart(string[] args) // метод выполняемый при запуске службы
         {
-            LibAgent.Work.DebugInfoSend += WriteToEventLog;
+            LibAgent.Work.DebugInfoSend += WriteToEventLog; // добавляем обработчик события
             
-            Thread work = new Thread(new ParameterizedThreadStart(LibAgent.Work.Main));
-            work.Start(ConfigurationManager.AppSettings);
+            Thread work = new Thread(new ParameterizedThreadStart(LibAgent.Work.Main));  // создаем новый поток для главного метода программы
+            work.Start(ConfigurationManager.AppSettings); // запускаем поток и в параметры передаем коллекцию с настроиками из файла
         }
 
-        protected override void OnStop()
+        protected override void OnStop() //метод вызываемый при остановке службы
         {
-            LibAgent.Work.enable = true;
+            LibAgent.Work.enable = false; // останавливаем все циклы
         }
 
-        public static void WriteToEventLog(string str)
+        public static void WriteToEventLog(string str)  // метод для записи информации в EventLog
         {
             using (EventLog eventLog = new EventLog("Application"))
             {
