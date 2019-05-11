@@ -37,7 +37,7 @@ CREATE UNIQUE INDEX `id_UNIQUE` ON `Monitoring`.`operating_systems` (`id` ASC);
 DROP TABLE IF EXISTS `Monitoring`.`host_states` ;
 
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_states` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL,
   `description` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -56,8 +56,9 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`hosts` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hostname` VARCHAR(45) NOT NULL,
   `operating_system` INT NOT NULL,
-  `bios_version` VARCHAR(50) NOT NULL,
+  `bios_version` VARCHAR(150) NOT NULL,
   `state` INT NOT NULL,
+  `last_update_time` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`, `hostname`),
   CONSTRAINT `to_operating_system`
     FOREIGN KEY (`operating_system`)
@@ -105,7 +106,6 @@ DROP TABLE IF EXISTS `Monitoring`.`host_devices` ;
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_devices` (
   `host_id` INT NOT NULL,
   `device_id` INT NOT NULL,
-  PRIMARY KEY (`host_id`, `device_id`),
   CONSTRAINT `from_host_devices_to_hosts`
     FOREIGN KEY (`host_id`)
     REFERENCES `Monitoring`.`hosts` (`id`)
@@ -114,8 +114,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`host_devices` (
   CONSTRAINT `from_host_devices_to_devices`
     FOREIGN KEY (`device_id`)
     REFERENCES `Monitoring`.`devices` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE INDEX `from_host_devices_to_devices_idx` ON `Monitoring`.`host_devices` (`device_id` ASC);
@@ -154,6 +154,8 @@ ENGINE = InnoDB;
 
 CREATE INDEX `from_programs_to_vendors_idx` ON `Monitoring`.`programs` (`vendor_id` ASC);
 
+CREATE UNIQUE INDEX `id_UNIQUE` ON `Monitoring`.`programs` (`id` ASC);
+
 
 -- -----------------------------------------------------
 -- Table `Monitoring`.`host_programs`
@@ -163,7 +165,6 @@ DROP TABLE IF EXISTS `Monitoring`.`host_programs` ;
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_programs` (
   `host_id` INT NOT NULL,
   `program_id` INT NOT NULL,
-  PRIMARY KEY (`host_id`, `program_id`),
   CONSTRAINT `from_host_programs_to_hosts`
     FOREIGN KEY (`host_id`)
     REFERENCES `Monitoring`.`hosts` (`id`)
@@ -172,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`host_programs` (
   CONSTRAINT `from_host_programs_to_programs`
     FOREIGN KEY (`program_id`)
     REFERENCES `Monitoring`.`programs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE INDEX `from_host_programs_to_programs_idx` ON `Monitoring`.`host_programs` (`program_id` ASC);
@@ -186,7 +187,7 @@ DROP TABLE IF EXISTS `Monitoring`.`processes` ;
 
 CREATE TABLE IF NOT EXISTS `Monitoring`.`processes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(150) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -201,7 +202,6 @@ DROP TABLE IF EXISTS `Monitoring`.`host_processes` ;
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_processes` (
   `host_id` INT NOT NULL,
   `process_id` INT NOT NULL,
-  PRIMARY KEY (`host_id`, `process_id`),
   CONSTRAINT `from_host_processes_to_hosts`
     FOREIGN KEY (`host_id`)
     REFERENCES `Monitoring`.`hosts` (`id`)
@@ -223,13 +223,13 @@ CREATE INDEX `from_host_processes_to_processes_idx` ON `Monitoring`.`host_proces
 DROP TABLE IF EXISTS `Monitoring`.`host_device_history` ;
 
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_device_history` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `host_id` INT NOT NULL,
   `device_id` INT NOT NULL,
   `action` TINYINT NOT NULL,
   `looked` TINYINT NOT NULL,
-  `date` VARCHAR(10) NOT NULL,
-  `time` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`host_id`),
+  `date` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`),
   CONSTRAINT `from_host_devices_history_to_hosts`
     FOREIGN KEY (`host_id`)
     REFERENCES `Monitoring`.`hosts` (`id`)
@@ -238,11 +238,13 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`host_device_history` (
   CONSTRAINT `from_history_to_devices`
     FOREIGN KEY (`device_id`)
     REFERENCES `Monitoring`.`devices` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `from_history_to_devices_idx` ON `Monitoring`.`host_device_history` (`device_id` ASC);
+
+CREATE UNIQUE INDEX `id_UNIQUE` ON `Monitoring`.`host_device_history` (`id` ASC);
 
 
 -- -----------------------------------------------------
@@ -251,13 +253,13 @@ CREATE INDEX `from_history_to_devices_idx` ON `Monitoring`.`host_device_history`
 DROP TABLE IF EXISTS `Monitoring`.`host_program_history` ;
 
 CREATE TABLE IF NOT EXISTS `Monitoring`.`host_program_history` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `host_id` INT NOT NULL,
   `program_id` INT NOT NULL,
   `action` TINYINT NOT NULL,
   `looked` TINYINT NOT NULL,
-  `date` VARCHAR(10) NOT NULL,
-  `time` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`host_id`),
+  `date` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`),
   CONSTRAINT `from_host_programs_history_to_hosts`
     FOREIGN KEY (`host_id`)
     REFERENCES `Monitoring`.`hosts` (`id`)
@@ -266,11 +268,13 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`host_program_history` (
   CONSTRAINT `from_program_histoty_to_programs`
     FOREIGN KEY (`program_id`)
     REFERENCES `Monitoring`.`programs` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE INDEX `from_program_histoty_to_programs_idx` ON `Monitoring`.`host_program_history` (`program_id` ASC);
+
+CREATE UNIQUE INDEX `id_UNIQUE` ON `Monitoring`.`host_program_history` (`id` ASC);
 
 
 -- -----------------------------------------------------
@@ -310,8 +314,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_mb` (
   CONSTRAINT `from_mb_to_devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `name_hash_UNIQUE` ON `Monitoring`.`device_mb` (`device_name_hash` ASC);
@@ -328,7 +332,6 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_cpu` (
   `device_name_hash` INT NOT NULL,
   `manufacturer_id` INT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `threads` INT NOT NULL,
   `cores` INT NOT NULL,
   `clock_speed` INT NOT NULL,
   PRIMARY KEY (`device_name_hash`),
@@ -340,8 +343,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_cpu` (
   CONSTRAINT `from_cpu_to_devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `device_name_hash_UNIQUE` ON `Monitoring`.`device_cpu` (`device_name_hash` ASC);
@@ -388,7 +391,6 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_ram` (
   `device_name_hash` INT NOT NULL,
   `manufacturer_id` INT NOT NULL,
   `clock_speed` INT NOT NULL,
-  `voltage` INT NOT NULL,
   `memory_type` INT NOT NULL,
   `form_factor` INT NOT NULL,
   `size` BIGINT(20) NOT NULL,
@@ -401,8 +403,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_ram` (
   CONSTRAINT `from_ram_to_devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
   CONSTRAINT `to_form_factor`
     FOREIGN KEY (`form_factor`)
     REFERENCES `Monitoring`.`form_factor` (`id`)
@@ -440,8 +442,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_hdd` (
   CONSTRAINT `from_hdd_to devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `device_name_hash_UNIQUE` ON `Monitoring`.`device_hdd` (`device_name_hash` ASC);
@@ -473,8 +475,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_net` (
   CONSTRAINT `from_net_to_devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
   CONSTRAINT `from_net_to_gateways`
     FOREIGN KEY (`gateway_id`)
     REFERENCES `Monitoring`.`net_gateways` (`id`)
@@ -502,8 +504,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`device_gpu` (
   CONSTRAINT `from_gpu_to_devices`
     FOREIGN KEY (`device_name_hash`)
     REFERENCES `Monitoring`.`devices` (`device_name_hash`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `device_name_hash_UNIQUE` ON `Monitoring`.`device_gpu` (`device_name_hash` ASC);
@@ -531,6 +533,19 @@ CREATE INDEX `to_device_net_idx` ON `Monitoring`.`net_ip_addresses` (`mac` ASC);
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `Monitoring`.`host_states`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `Monitoring`;
+INSERT INTO `Monitoring`.`host_states` (`id`, `description`) VALUES (0, 'Без изменений');
+INSERT INTO `Monitoring`.`host_states` (`id`, `description`) VALUES (1, 'Ошибка');
+INSERT INTO `Monitoring`.`host_states` (`id`, `description`) VALUES (2, 'Изменен состав оборудования');
+INSERT INTO `Monitoring`.`host_states` (`id`, `description`) VALUES (3, 'Изменен состав программ');
+
+COMMIT;
+
 
 -- -----------------------------------------------------
 -- Data for table `Monitoring`.`form_factor`
