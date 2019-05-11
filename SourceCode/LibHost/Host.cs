@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LibHost
 {
-    [Serializable]
+    [Serializable] //параметр указывает что класс будет сериализовываться
     public class Host
     {
-        public int host_id;
-        public string hostname;
-        public string os_version;
-        public string bios_version;
-        public int state;
-        public List<Device> Devices;
-        public List<Process> Processes;
-        public List<Program> Programs;
+        public int host_id; //переменная для хранения ID устройства, пудет запрашиваться из БД
+        public string hostname; //хранение имя устройства
+        public string os_version; //верссии ОС
+        public string bios_version; //версии BIOS
+        public int state; // хранение состояния устройства
+        public List<Device> Devices; //список устройств
+        public List<Process> Processes; //список процессов
+        public List<Program> Programs; //список программ
 
-        public Host( string hostname, string os_version, string bios_version, int state, List<Device> devices, List<Process> processes, List<Program> programs)
+        public Host( string hostname, string os_version, string bios_version, int state, List<Device> devices, List<Process> processes, List<Program> programs)  //конструктор который в аргументы принимает информацию об узле и списки программ, процессов и устройств
         {
             this.host_id = 0;
             this.hostname = hostname ?? "-1";
@@ -29,7 +27,7 @@ namespace LibHost
             Programs = programs ?? new List<Program>();
         }
 
-        public override string ToString()
+        public override string ToString() //переопределенный метод возвращающий строку, нужен был только для отладки, не используется сейчас
         {
             string result = string.Empty;
             result += "\n-----------------------Host------------------------";

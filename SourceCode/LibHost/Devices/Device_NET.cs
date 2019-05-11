@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+
 
 
 namespace LibHost.Devices
 {
-    [Serializable]
-    public class Device_NET : Device
+    [Serializable]//отмечаем что класс будет сериализовываться
+    public class Device_NET : Device //наследуем от класса device
     {
         
         public string mac;
@@ -18,21 +16,20 @@ namespace LibHost.Devices
 
 
 
-        public Device_NET( string mac, string description, List<System.Net.IPAddress> gateway, List<System.Net.IPAddress> iPAddresses)
+        public Device_NET( string mac, string description, List<System.Net.IPAddress> gateway, List<System.Net.IPAddress> iPAddresses) //конструктор принимающий информацию об устройстве
         {
             this.device_type = "NET";
 
             this.mac = mac ?? "-1";
             this.description = description ?? "-1";
-            Gateway = gateway ?? new List<IPAddress>();
-            this.iPAddresses = iPAddresses ?? new List<IPAddress>();
+            Gateway = gateway ?? new List<System.Net.IPAddress>();
+            this.iPAddresses = iPAddresses ?? new List<System.Net.IPAddress>();
 
-            string temp = (this.mac + this.description);
-
-            this.hash = temp.GetHashCode();
+            string temp = (this.mac + this.description);//конкатенируем информацию во временную строку
+            this.hash = temp.GetHashCode(); //получаем хеш
         }
 
-        public override string ToString()
+        public override string ToString() //переопределенный метод возвращающий строку, нужен был только для отладки, не используется сейчас
         {
             string result = string.Empty;
             result += "\n-----------------------NET------------------------";

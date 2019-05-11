@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace LibHost
 {
-    [Serializable]
-    public class Device
+    [Serializable] //отмечаем что класс будет сериализовываться
+    public class Device // базовый класс для устройств
     {
-        public int id;
-        public string device_type;
-        public int hash;
+        public int id; //для хранения ID устройства
+        public string device_type; //для хранения типа устройства (здесь скорее нужно было использовать перечисление, но решил использовать строку)
+        public int hash; //храними уникальный хэш
 
         public override string ToString()
         {

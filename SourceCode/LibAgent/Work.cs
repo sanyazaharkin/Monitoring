@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Net;
 using System.Net.Sockets;
 using System.Management;
-using System.Configuration;
 using System.Collections.Specialized;
 
 namespace LibAgent
@@ -20,7 +17,7 @@ namespace LibAgent
 
 
         public  static bool enable; //объявление переменных с настроиками
-        private static bool debug; 
+        private static bool debug; //переменная которая отвечает за вывод отладочной информации 
         private static int port;
         private static int timeout;
         private static IPAddress address;

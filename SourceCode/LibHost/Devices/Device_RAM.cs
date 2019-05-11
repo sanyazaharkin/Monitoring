@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LibHost.Devices
 {
-    [Serializable]
-    public class Device_RAM : Device
+    [Serializable] //отмечаем что класс будет сериализовываться
+    public class Device_RAM : Device //наследуем от класса device
     {
         
         public string manufacturer;
@@ -18,7 +15,7 @@ namespace LibHost.Devices
 
 
 
-        public Device_RAM(string manufacturer, int clock_speed,  int memory_type, int form_factor, ulong size, string DeviceLocator)
+        public Device_RAM(string manufacturer, int clock_speed,  int memory_type, int form_factor, ulong size, string DeviceLocator) //конструктор принимающий информацию об устройстве
         {
             this.device_type = "RAM";
 
@@ -29,12 +26,11 @@ namespace LibHost.Devices
             this.size = size;
             this.DeviceLocator = DeviceLocator;
 
-            string temp = (this.manufacturer + this.clock_speed.ToString() + this.memory_type.ToString() + this.form_factor.ToString() + this.size.ToString() + this.DeviceLocator.ToString());
-
-            this.hash = temp.GetHashCode();
+            string temp = (this.manufacturer + this.clock_speed.ToString() + this.memory_type.ToString() + this.form_factor.ToString() + this.size.ToString() + this.DeviceLocator.ToString());//конкатенируем информацию во временную строку
+            this.hash = temp.GetHashCode();//получаем хеш
         }
 
-        public override string ToString()
+        public override string ToString()  //переопределенный метод возвращающий строку, нужен был только для отладки, не используется сейчас
         {
             string result = string.Empty;
             result += "\n-----------------------RAM------------------------";

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LibHost
 {
-    [Serializable]
+    [Serializable] //отмечаем что класс будет сериализовываться
     public class Program
     {
         public int program_id;
@@ -15,7 +12,7 @@ namespace LibHost
         public string vendor;
         
 
-        public Program(string name, string version, string vendor)
+        public Program(string name, string version, string vendor) //конструктор принимающий информацию о программе
         {
             this.program_id = 0;
             this.name = name ?? "-1";
@@ -28,7 +25,7 @@ namespace LibHost
 
 
 
-        public override string ToString()
+        public override string ToString() //переопределенный метод возвращающий строку, нужен был только для отладки, не используется сейчас
         {
             return ("hash: " + this.hash + " name: " + name + " version: " + vendor + " vendor: " + version + " \n");
         }

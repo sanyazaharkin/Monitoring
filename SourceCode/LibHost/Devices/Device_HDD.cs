@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace LibHost.Devices
 {
-    [Serializable]
-    public class Device_HDD : Device
+    [Serializable] //отмечаем что класс будет сериализовываться
+    public class Device_HDD : Device //наследуем от класса device
     {
        
         public string description;
@@ -17,7 +15,7 @@ namespace LibHost.Devices
 
 
 
-        public Device_HDD( string description, string caption, ulong size, ulong free_space, string file_system)
+        public Device_HDD( string description, string caption, ulong size, ulong free_space, string file_system) //конструктор принимающий информацию об устройстве
         {
             this.device_type = "HDD";
 
@@ -27,12 +25,11 @@ namespace LibHost.Devices
             this.free_space = free_space;
             this.file_system = file_system ?? "-1";
 
-            string temp = (this.description + this.caption + this.size.ToString() + this.file_system.ToString());
-
-            this.hash = temp.GetHashCode();
+            string temp = (this.description + this.caption + this.size.ToString() + this.file_system.ToString()); //конкатенируем информацию во временную строку
+            this.hash = temp.GetHashCode(); //получаем хеш
         }
 
-        public override string ToString()
+        public override string ToString()//переопределенный метод возвращающий строку, нужен был только для отладки, не используется сейчас
         {
             string result = string.Empty;
             result += "\n-----------------------HDD------------------------";
