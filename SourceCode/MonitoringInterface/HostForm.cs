@@ -8,9 +8,9 @@ namespace MonitoringInterface
 {
     public partial class HostForm : Form
     {
-        int host_id;
-        string hostname;
-        HostsForm parentForm;
+        readonly int host_id;
+        readonly string hostname;
+        readonly HostsForm parentForm;
         public HostForm()
         {
             InitializeComponent();
@@ -22,26 +22,22 @@ namespace MonitoringInterface
             this.parentForm = parentForm;
             host_id = id;
             hostname = name;
-            this.FormClosed += parent_form_closed;
+            this.FormClosed += Form_closed;
             
             Text = "Информация об узле " + hostname;
         }
 
-        private void parent_form_closed(object sender, EventArgs e)
+        private void Form_closed(object sender, EventArgs e) //при закрытии формы
         {
-            parentForm.Show();
+            parentForm.Show(); //отрисовать родительскую форму
         }
 
-
-
-
-        private void HostForm_Load(object sender, EventArgs e)
+        private void HostForm_Load(object sender, EventArgs e) //после загрузки формы 
         {
-            UpdateForm();
+            UpdateForm(); //обновляем ее
         }
 
-
-        private void UpdateForm()
+        private void UpdateForm() //метод обновляющий все элементы на форме
         {
             UpdateDeviceTree();
             UpdateProgramTree();
@@ -50,19 +46,21 @@ namespace MonitoringInterface
             UpdateProcessLabel();
         }
 
-        private void UpdateDeviceTree()
+        private void UpdateDeviceTree()//обновление дерева с устройствами
         {
-            DevicesTree.Nodes.Clear();
+            DevicesTree.Nodes.Clear(); //очистка дерева
 
-            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT device_type FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id = " + host_id + ") AND device_type = 'MB');", 1)[0][0] == "1")
+            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT device_type FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id = " + host_id + ") AND device_type = 'MB');", 1)[0][0] == "1") // делаем запрос в базу, если есть материнки
             {
-                DevicesTree.Nodes.Add("MB", "Материнская плата");
+                DevicesTree.Nodes.Add("MB", "Материнская плата"); // и если есть устройства соответствующекго типа добавляем ветку
 
+                //и в добавленную ветку поштучно добавляем все устройства такого типа
                 foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
                 {
+
                     string result = string.Empty;
 
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];// row[1];
+                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];
                     string model = row[2] != "-1" ? row[2] : "Не известно";
                     string name = row[3] != "-1" ? row[3] : "Не известно";
                     string product = row[4] != "-1" ? row[4] : "Не известно";
@@ -79,6 +77,7 @@ namespace MonitoringInterface
 
                 }
             }
+            //остальные куски кода работают аналогично
             if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT device_type FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id = " + host_id + ") AND device_type = 'CPU');", 1)[0][0] == "1")
             {
                 DevicesTree.Nodes.Add("CPU", "Процессор");
@@ -206,28 +205,30 @@ namespace MonitoringInterface
                 }
             }
 
-            DevicesTree.Update();
+            DevicesTree.Update(); //обновляем дерево
         }
-        private void UpdateProgramTree()
+        private void UpdateProgramTree() //обновление дерева с установленными программами
         {
-            ProgramTree.Nodes.Clear();
+            ProgramTree.Nodes.Clear(); //очистка дерева
 
-            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_programs WHERE host_id=" + host_id + ");", 1)[0][0] == "1")
+            if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_programs WHERE host_id=" + host_id + ");", 1)[0][0] == "1") // если у узла есть программы
             {
                 foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "));", 2))
                 {
+                    //то поочереди добавляем вектки с производителями
                     ProgramTree.Nodes.Add(vendors[0], vendors[1]);
 
                     foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor_id=" + vendors[0] + " AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
                     {
+                        //а в эти ветки добавляем ветки с программами от этих производителей
                         ProgramTree.Nodes[vendors[0]].Nodes.Add(programs[0], programs[1] + " Version: " + programs[2]);
                     }
                 }
             }
 
-            ProgramTree.Update();
+            ProgramTree.Update(); //перерисовка дерева
         }
-        private void UpdateDeviceHistorysGrid()
+        private void UpdateDeviceHistorysGrid() //метод который обновляет таблицу с изменениями в составе железок
         {
             DevicesHistoryGrid.Rows.Clear();
 
@@ -279,7 +280,7 @@ namespace MonitoringInterface
             DevicesHistoryGrid.Update();
         }
 
-        private void UpdateProgramHistorysGrid()
+        private void UpdateProgramHistorysGrid()//метод который обновляет таблицу с изменениями в составе ПО
         {
             ProgramsHistoryGrid.Rows.Clear();
 
@@ -298,9 +299,8 @@ namespace MonitoringInterface
             ProgramsHistoryGrid.Update();
         }
 
-        private void UpdateProcessLabel()
-        {
-            string processes = string.Empty;
+        private void UpdateProcessLabel() //обновляем список процессов
+        {            
             listView1.Clear();
             foreach (string[] process in  parentForm.GetTableFromDB("SELECT name FROM processes WHERE id IN (SELECT process_id FROM host_processes WHERE host_id=" + host_id + ");", 1))
             {
@@ -313,19 +313,19 @@ namespace MonitoringInterface
 
 
 
-        private void UpdateButton_Click(object sender, EventArgs e)
+        private void UpdateButton_Click(object sender, EventArgs e) //обработчик нажатия на кнопку обновить
         {
-            UpdateForm();
+            UpdateForm(); //обновляем форму
         }
 
-        private void DeleteHostButton_Click(object sender, EventArgs e)
+        private void DeleteHostButton_Click(object sender, EventArgs e) //удаление информации об узле из БД
         {
-            parentForm.GetTableFromDB("DELETE FROM hosts WHERE id = " + host_id + "",1);
-            parentForm.UpdateHostsGrid();
-            Close();            
+            parentForm.GetTableFromDB("DELETE FROM hosts WHERE id = " + host_id + "",1); //запрос в БД
+            parentForm.UpdateHostsGrid(); //обновление таблицы на главной форме
+            Close(); //закрываем текущую форму            
         }
 
-        private void SetLookedButton1_Click(object sender, EventArgs e)
+        private void SetLookedButton1_Click(object sender, EventArgs e) //нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_device_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
             parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
@@ -334,7 +334,7 @@ namespace MonitoringInterface
             
         }
 
-        private void SetLookedButton2_Click(object sender, EventArgs e)
+        private void SetLookedButton2_Click(object sender, EventArgs e)//нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_program_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
             parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
@@ -342,22 +342,22 @@ namespace MonitoringInterface
             UpdateForm();
         }
 
-        private void UploadReport()
+        private void UploadReport() //метод выгружающий отчет
         {
-            string report_path = ChooseFolder();
-            List<string> report = GenerateReport();
+            string report_path = ChooseFolder(); //получаем путь к месту сохранения файла, с помошью диалогового окна
+            List<string> report = GenerateReport(); // наполняем список(отчет) строками 
             try
             {
-                File.WriteAllLines(Path.Combine(report_path, hostname + ".txt"), report);
+                File.WriteAllLines(Path.Combine(report_path, hostname + ".txt"), report); //сохраняем отчет в файл
             }
-            catch (Exception ex)
+            catch (Exception ex)  //ловим исключение
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); //вывод окна с текстом исключения
             }            
         }
 
 
-        private string ChooseFolder()
+        private string ChooseFolder() //метод открывающий окно для выбора пути сохранения
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -370,15 +370,17 @@ namespace MonitoringInterface
         }
 
 
-        private void Upload_Report_button_Click(object sender, EventArgs e)
+        private void Upload_Report_button_Click(object sender, EventArgs e) //обработчик нажатия на кнопку
         {
-            UploadReport();
+            UploadReport();//вызываем метод
         }
 
-        private List<string> GenerateReport()
+        private List<string> GenerateReport() //метод собирающий отчет из БД
         {
-            List<string> result = new List<string>();
-            result.Add("===================Общая информация===================");
+            List<string> result = new List<string>
+            {
+                "===================Общая информация==================="
+            };
             foreach (string[] item in parentForm.GetTableFromDB("SELECT hostname, operating_system, bios_version FROM hosts WHERE id=" + host_id + ";", 3))
             {
                 result.Add("Узел: " + item[0]);
