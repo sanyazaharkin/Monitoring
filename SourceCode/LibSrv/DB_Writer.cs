@@ -214,7 +214,7 @@ namespace LibSrv
         }
 
 
-        private static void Write_Process_to_DB(LibHost.Process process, MySqlConnection connection)
+        private static void Write_Process_to_DB(LibHost.Process process, MySqlConnection connection) //метод который пишет информацию о процессахз в БД
         {
             
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM processes WHERE name='" + process.name + "');", connection) == "1")
@@ -228,7 +228,7 @@ namespace LibSrv
 
         }
         
-        private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection)
+        private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection) //метод который пишет информацию о программах в БД
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ");", connection) == "1")
             {
@@ -242,7 +242,7 @@ namespace LibSrv
 
 
 
-        private static int GetManufacturerID(string name, MySqlConnection connection)
+        private static int GetManufacturerID(string name, MySqlConnection connection) //метод который пишет информацию о производителе в таблицу и возвращает полученный ID
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM manufacturers WHERE name='" + name + "');", connection) == "1")
             {
@@ -255,7 +255,7 @@ namespace LibSrv
 
         }
 
-        private static int GetDeviceID(int hash,string type, MySqlConnection connection)
+        private static int GetDeviceID(int hash,string type, MySqlConnection connection) //метода добавляюший запись в таблицу Devices и возвращающий ID 
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM devices WHERE device_name_hash=" + hash + ");", connection) == "1")
             {
@@ -268,7 +268,7 @@ namespace LibSrv
 
         }
 
-        private static int GetGatewayID(System.Net.IPAddress gw, MySqlConnection connection)
+        private static int GetGatewayID(System.Net.IPAddress gw, MySqlConnection connection) //запись в таблицу gateways  и получение id 
         {
 
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM net_gateways WHERE gateway='" + gw.ToString() + "');", connection) == "1")
@@ -281,7 +281,7 @@ namespace LibSrv
             }
         }
 
-        private static int GetVendorID(string vendor, MySqlConnection connection)
+        private static int GetVendorID(string vendor, MySqlConnection connection) //запись в таблицу vendors  и получение id
         {
 
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM vendors WHERE vendor='" + vendor + "');", connection) == "1")
@@ -294,7 +294,7 @@ namespace LibSrv
             }
         }
 
-        private static int GetOperatingSystemID(string os_version, MySqlConnection connection)
+        private static int GetOperatingSystemID(string os_version, MySqlConnection connection) //запись в таблицу operating_systems  и получение id
         {
 
             if (Sql_Query_Execute("SELECT EXISTS (SELECT id FROM operating_systems WHERE system='" + os_version + "');", connection) == "1")
@@ -308,18 +308,18 @@ namespace LibSrv
         }
 
 
-        private static void SearchChangeDevices(LibHost.Host host, MySqlConnection connection)
+        private static void SearchChangeDevices(LibHost.Host host, MySqlConnection connection) //поиск изменений в составе устройств
         {
-            List<int> oldDeviceHash = new List<int>();
-            List<int> newDeviceHash = new List<int>();
+            List<int> oldDeviceHash = new List<int>(); //пустой список старых устройств
+            List<int> newDeviceHash = new List<int>(); //пустой список новых устройств
 
-            MySqlDataReader reader = Get_Table_From_DB("SELECT device_name_hash FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id=" + host.host_id + ");", connection);
+            MySqlDataReader reader = Get_Table_From_DB("SELECT device_name_hash FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id=" + host.host_id + ");", connection); //делаем запрос старых устройств из БД
 
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    oldDeviceHash.Add(reader.GetInt32("device_name_hash"));
+                    oldDeviceHash.Add(reader.GetInt32("device_name_hash")); //наполняем список старых устройств хешами получеными из БД
                 }
             }
 
@@ -328,25 +328,27 @@ namespace LibSrv
 
             foreach (LibHost.Device item in host.Devices)
             {
-                newDeviceHash.Add(item.hash);
+                newDeviceHash.Add(item.hash); //наполняем список новых устройств хешами , которые выдергиваем из списка устройств, полученного от узла
             }
 
-            List<int> mountedDevices = newDeviceHash.Except(oldDeviceHash).ToList();
-            List<int> unmountedDevices = oldDeviceHash.Except(newDeviceHash).ToList();
+            List<int> mountedDevices = newDeviceHash.Except(oldDeviceHash).ToList(); //получаем список новых устройств , путем получения разности множеств, из списка хешей новых устройств мы вычитаем список хешей старых устройств результат присваиваем переменной
+            List<int> unmountedDevices = oldDeviceHash.Except(newDeviceHash).ToList(); //то же самое только в обратную сторону
 
-            foreach (int item in mountedDevices)
+            foreach (int item in mountedDevices) //перебираем список новых устройств
             {
+                //о каждом пишем в БД
                 Sql_Query_Execute("INSERT INTO host_device_history (host_id, device_id,action,looked,date) VALUES (" + host.host_id + "," + Sql_Query_Execute("SELECT id FROM devices WHERE device_name_hash=" + item + "; ", connection).ToString() + ", 1, 0, '" + DateTime.Now + "');", connection);
             }
 
-            foreach (int item in unmountedDevices)
+            foreach (int item in unmountedDevices)  //перебираем список старых устройств
             {
+                //о каждом пишем в БД
                 Sql_Query_Execute("INSERT INTO host_device_history (host_id, device_id,action,looked,date) VALUES (" + host.host_id + "," + Sql_Query_Execute("SELECT id FROM devices WHERE device_name_hash=" + item + "; ", connection).ToString() + ", 0, 0, '" + DateTime.Now + "');", connection);
             }
 
         }
 
-        private static void SearchChangePrograms(LibHost.Host host, MySqlConnection connection)
+        private static void SearchChangePrograms(LibHost.Host host, MySqlConnection connection) //поиск изменений в составе программ, работает аналогично предыдущему, с небольшой разницей
         {
             List<int> oldProgramHash = new List<int>();
             List<int> newProgramHash = new List<int>();
@@ -376,17 +378,16 @@ namespace LibSrv
             foreach (int item in installedPrograms)
             {
                 int program_id ;
-                if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + item + "); ", connection) == "1")
+                if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + item + "); ", connection) == "1") //проверяем есть ли запись о такой программе в БД
                 {
-                    program_id = int.Parse(Sql_Query_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection));
+                    //если есть то получаем id
+                    program_id = int.Parse(Sql_Query_Execute("SELECT id FROM programs WHERE name_version_hash=" + item + "; ", connection)); 
                 }
                 else
                 {
-                    //Write_Programm_to_DB(host.Programs.Find(x => x.hash == item), connection);
-
+                    //если енет то добавляем запись и получаем id
                     LibHost.Program temp = host.Programs.Find(x => x.hash == item);
                     program_id = int.Parse(Sql_Query_Execute("INSERT INTO programs (name_version_hash, name, version, vendor_id) VALUES (" + temp.hash + ",'" + temp.name + "','" + temp.version + "', " + GetVendorID(temp.vendor, connection) + " ); SELECT LAST_INSERT_ID();", connection));
-
                 }
 
 
@@ -405,16 +406,16 @@ namespace LibSrv
         }
 
 
-        private static void UpdateHostState(LibHost.Host host, MySqlConnection connection)
+        private static void UpdateHostState(LibHost.Host host, MySqlConnection connection) //метод обновляющий статус устройства
         {
-            if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_device_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1")
+            if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_device_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1") //если есть непрочтеные записи об изменении в списке устройств
             {
-                Sql_Query_Execute("UPDATE hosts SET state=2 WHERE id = " + host.host_id + "; ", connection);
+                Sql_Query_Execute("UPDATE hosts SET state=2 WHERE id = " + host.host_id + "; ", connection); //то обновляем состояние на 2
             }
 
-            if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_program_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1")
+            if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_program_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1") //если есть непрочтеные записи об изменении в списке программ
             {
-                Sql_Query_Execute("UPDATE hosts SET state=3 WHERE id = " + host.host_id + "; ", connection);
+                Sql_Query_Execute("UPDATE hosts SET state=3 WHERE id = " + host.host_id + "; ", connection);//то обновляем состояние на 3
             }
         }
 
