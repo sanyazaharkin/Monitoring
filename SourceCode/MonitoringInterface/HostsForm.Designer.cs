@@ -30,17 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.HostsGrid = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hostname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bios = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UpdateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SetTimerPeriod = new System.Windows.Forms.NumericUpDown();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Update_Button1 = new System.Windows.Forms.Button();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.hostname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bios = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OS = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cabinet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UpdateDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.state = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.HostsGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SetTimerPeriod)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +61,7 @@
             this.hostname,
             this.bios,
             this.OS,
+            this.Cabinet,
             this.UpdateDate,
             this.state});
             this.HostsGrid.Location = new System.Drawing.Point(12, 12);
@@ -69,42 +71,6 @@
             this.HostsGrid.Size = new System.Drawing.Size(862, 316);
             this.HostsGrid.TabIndex = 0;
             this.HostsGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.HostsGrid_CellContentClick);
-            // 
-            // id
-            // 
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            // 
-            // hostname
-            // 
-            this.hostname.HeaderText = "Имя хоста";
-            this.hostname.Name = "hostname";
-            this.hostname.ReadOnly = true;
-            // 
-            // bios
-            // 
-            this.bios.HeaderText = "BIOS";
-            this.bios.Name = "bios";
-            this.bios.ReadOnly = true;
-            // 
-            // OS
-            // 
-            this.OS.HeaderText = "OS";
-            this.OS.Name = "OS";
-            this.OS.ReadOnly = true;
-            // 
-            // UpdateDate
-            // 
-            this.UpdateDate.HeaderText = "время последнего обновления";
-            this.UpdateDate.Name = "UpdateDate";
-            this.UpdateDate.ReadOnly = true;
-            // 
-            // state
-            // 
-            this.state.HeaderText = "состояние";
-            this.state.Name = "state";
-            this.state.ReadOnly = true;
             // 
             // timer1
             // 
@@ -168,6 +134,48 @@
             this.Update_Button1.UseVisualStyleBackColor = true;
             this.Update_Button1.Click += new System.EventHandler(this.Update_Button1_Click);
             // 
+            // id
+            // 
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            // 
+            // hostname
+            // 
+            this.hostname.HeaderText = "Имя хоста";
+            this.hostname.Name = "hostname";
+            this.hostname.ReadOnly = true;
+            // 
+            // bios
+            // 
+            this.bios.HeaderText = "BIOS";
+            this.bios.Name = "bios";
+            this.bios.ReadOnly = true;
+            // 
+            // OS
+            // 
+            this.OS.HeaderText = "OS";
+            this.OS.Name = "OS";
+            this.OS.ReadOnly = true;
+            // 
+            // Cabinet
+            // 
+            this.Cabinet.HeaderText = "Кабинет";
+            this.Cabinet.Name = "Cabinet";
+            this.Cabinet.ReadOnly = true;
+            // 
+            // UpdateDate
+            // 
+            this.UpdateDate.HeaderText = "время последнего обновления";
+            this.UpdateDate.Name = "UpdateDate";
+            this.UpdateDate.ReadOnly = true;
+            // 
+            // state
+            // 
+            this.state.HeaderText = "состояние";
+            this.state.Name = "state";
+            this.state.ReadOnly = true;
+            // 
             // HostsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,17 +201,18 @@
         #endregion
 
         private System.Windows.Forms.DataGridView HostsGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn hostname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn bios;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OS;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UpdateDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn state;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NumericUpDown SetTimerPeriod;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Update_Button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn hostname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bios;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OS;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cabinet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UpdateDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn state;
     }
 }
 

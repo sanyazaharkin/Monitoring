@@ -55,12 +55,12 @@ namespace MonitoringInterface
                 DevicesTree.Nodes.Add("MB", "Материнская плата"); // и если есть устройства соответствующекго типа добавляем ветку
 
                 //и в добавленную ветку поштучно добавляем все устройства такого типа
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
                 {
 
                     string result = string.Empty;
 
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string model = row[2] != "-1" ? row[2] : "Не известно";
                     string name = row[3] != "-1" ? row[3] : "Не известно";
                     string product = row[4] != "-1" ? row[4] : "Не известно";
@@ -82,11 +82,11 @@ namespace MonitoringInterface
             {
                 DevicesTree.Nodes.Add("CPU", "Процессор");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, name ,cores ,clock_speed FROM device_cpu WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='CPU' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 5))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, name ,cores ,clock_speed FROM device_cpu WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='CPU' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 5))
                 {
                     string result = string.Empty;
 
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];// row[1];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string name = row[2] != "-1" ? row[2] : "Не известно";
                     string cores = row[3] != "-1" ? row[3] : "Не известно";
                     string clock_speed = row[4] != "-1" ? row[4] : "Не известно";
@@ -105,14 +105,14 @@ namespace MonitoringInterface
             {
                 DevicesTree.Nodes.Add("RAM", "Память");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, clock_speed, memory_type, form_factor,size FROM device_ram WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='RAM' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, clock_speed, memory_type, form_factor,size FROM device_ram WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='RAM' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
                 {
                     string result = string.Empty;
 
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string clock_speed = row[2] != "-1" ? row[2] : "Не известно";
-                    string memory_type = row[3] != "-1" ? parentForm.GetTableFromDB("SELECT desrciption FROM memory_type WHERE id = " + row[3] + ";", 1)[0][0] : "Не известно";
-                    string form_factor = row[4] != "-1" ? parentForm.GetTableFromDB("SELECT description FROM form_factor WHERE id = " + row[4] + ";", 1)[0][0] : "Не известно";
+                    string memory_type = row[3] != "-1" ? row[3] : "Не известно";
+                    string form_factor = row[4] != "-1" ? row[4] : "Не известно";
                     string size = row[5] != "-1" ? (ulong.Parse(row[5]) / 1024 / 1024).ToString() : "Не известно";
 
 
@@ -159,13 +159,13 @@ namespace MonitoringInterface
             {
                 DevicesTree.Nodes.Add("NET", "Сетевые адаптеры");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, mac, description, gateway_id  FROM device_net WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='NET' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 4))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, mac, description, gateway  FROM device_net WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='NET' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 4))
                 {
                     string result = string.Empty;
 
                     string mac = row[1] != "-1" ? row[1] : "Не известно";
                     string description = row[2] != "-1" ? row[2] : "Не известно";
-                    string gateway_id = row[3] != "-1" ? parentForm.GetTableFromDB("SELECT gateway FROM net_gateways WHERE id=" + row[3] + "", 1)[0][0] : "Не известно";
+                    string gateway_id = row[3] != "-1" ? row[3] : "Не известно";
 
                     result = string.Format("" +
                         "  mac: {0}" +
@@ -213,12 +213,12 @@ namespace MonitoringInterface
 
             if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT * FROM host_programs WHERE host_id=" + host_id + ");", 1)[0][0] == "1") // если у узла есть программы
             {
-                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "));", 2))
+                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT DISTINCT vendor FROM programs WHERE id IN (SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 1))
                 {
                     //то поочереди добавляем вектки с производителями
-                    ProgramTree.Nodes.Add(vendors[0], vendors[1]);
+                    ProgramTree.Nodes.Add(vendors[0], vendors[0]);
 
-                    foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor_id=" + vendors[0] + " AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
+                    foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor='" + vendors[0] + "' AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
                     {
                         //а в эти ветки добавляем ветки с программами от этих производителей
                         ProgramTree.Nodes[vendors[0]].Nodes.Add(programs[0], programs[1] + " Version: " + programs[2]);
@@ -328,7 +328,7 @@ namespace MonitoringInterface
         private void SetLookedButton1_Click(object sender, EventArgs e) //нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_device_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
-            parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
+            parentForm.GetTableFromDB("UPDATE hosts SET state = 'Без изменений' WHERE id = " + host_id + "", 1);
             parentForm.UpdateHostsGrid();
             UpdateForm();
             
@@ -337,7 +337,7 @@ namespace MonitoringInterface
         private void SetLookedButton2_Click(object sender, EventArgs e)//нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_program_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
-            parentForm.GetTableFromDB("UPDATE hosts SET state = 0 WHERE id = " + host_id + "", 1);
+            parentForm.GetTableFromDB("UPDATE hosts SET state = 'Без изменений' WHERE id = " + host_id + "", 1);
             parentForm.UpdateHostsGrid();
             UpdateForm();
         }
@@ -384,16 +384,16 @@ namespace MonitoringInterface
             foreach (string[] item in parentForm.GetTableFromDB("SELECT hostname, operating_system, bios_version FROM hosts WHERE id=" + host_id + ";", 3))
             {
                 result.Add("Узел: " + item[0]);
-                result.Add("Операционная система: " + parentForm.GetTableFromDB("SELECT system FROM operating_systems WHERE id=" + item[1] + ";", 1)[0][0]);
+                result.Add("Операционная система: " + item[1]);
                 result.Add("Версия BIOS: " + item[2]);
             }
 
             if (parentForm.GetTableFromDB("SELECT EXISTS(SELECT device_type FROM devices WHERE id IN (SELECT device_id FROM host_devices WHERE host_id = " + host_id + ") AND device_type = 'MB');", 1)[0][0] == "1")
             {
                 result.Add("===================Материнская плата===================");
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, model ,name ,product, serial_number FROM device_mb WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='MB' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "));", 6))
                 {
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];// row[1];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string model = row[2] != "-1" ? row[2] : "Не известно";
                     string name = row[3] != "-1" ? row[3] : "Не известно";
                     string product = row[4] != "-1" ? row[4] : "Не известно";
@@ -410,9 +410,9 @@ namespace MonitoringInterface
             {
                 result.Add("===================Процессор===================");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, name ,cores ,clock_speed FROM device_cpu WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='CPU' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 5))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, name ,cores ,clock_speed FROM device_cpu WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='CPU' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 5))
                 {
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];// row[1];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string name = row[2] != "-1" ? row[2] : "Не известно";
                     string cores = row[3] != "-1" ? row[3] : "Не известно";
                     string clock_speed = row[4] != "-1" ? row[4] : "Не известно";
@@ -427,12 +427,12 @@ namespace MonitoringInterface
             {
                 result.Add("===================Память===================");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer_id, clock_speed, memory_type, form_factor,size FROM device_ram WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='RAM' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, manufacturer, clock_speed, memory_type, form_factor,size FROM device_ram WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='RAM' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 6))
                 {
-                    string manufaturer = parentForm.GetTableFromDB("SELECT name FROM manufacturers WHERE id = " + row[1] + ";", 1)[0][0];
+                    string manufaturer = row[1] != "-1" ? row[1] : "Не известно";
                     string clock_speed = row[2] != "-1" ? row[2] : "Не известно";
-                    string memory_type = row[3] != "-1" ? parentForm.GetTableFromDB("SELECT desrciption FROM memory_type WHERE id = " + row[3] + ";", 1)[0][0] : "Не известно";
-                    string form_factor = row[4] != "-1" ? parentForm.GetTableFromDB("SELECT description FROM form_factor WHERE id = " + row[4] + ";", 1)[0][0] : "Не известно";
+                    string memory_type = row[3] != "-1" ? row[3] : "Не известно";
+                    string form_factor = row[4] != "-1" ? row[4] : "Не известно";
                     string size = row[5] != "-1" ? (ulong.Parse(row[5]) / 1024 / 1024).ToString() : "Не известно";
 
 
@@ -469,11 +469,11 @@ namespace MonitoringInterface
             {
                 result.Add("===================Сетевые адаптеры===================");
 
-                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, mac, description, gateway_id  FROM device_net WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='NET' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 4))
+                foreach (string[] row in parentForm.GetTableFromDB("SELECT device_name_hash, mac, description, gateway  FROM device_net WHERE device_name_hash IN (SELECT device_name_hash FROM devices WHERE device_type='NET' AND id IN(SELECT device_id FROM host_devices WHERE host_id=" + host_id + "))", 4))
                 {
                     string mac = row[1] != "-1" ? row[1] : "Не известно";
                     string description = row[2] != "-1" ? row[2] : "Не известно";
-                    string gateway_id = row[3] != "-1" ? parentForm.GetTableFromDB("SELECT gateway FROM net_gateways WHERE id=" + row[3] + "", 1)[0][0] : "Не известно";
+                    string gateway_id = row[3] != "-1" ? row[3] : "Не известно";
 
                     result.Add(string.Format("" +
                         "  mac: {0}" +
@@ -508,9 +508,9 @@ namespace MonitoringInterface
             {
                 result.Add("===================Установленное ПО===================");
 
-                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT id, vendor FROM vendors WHERE id IN (SELECT vendor_id FROM programs WHERE id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + "));", 2))
+                foreach (string[] vendors in parentForm.GetTableFromDB("SELECT DISTINCT vendor FROM programs WHERE id IN (SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 1))
                 {
-                    foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor_id=" + vendors[0] + " AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
+                    foreach (string[] programs in parentForm.GetTableFromDB("SELECT id, name, version FROM programs WHERE vendor='" + vendors[0] + "' AND id IN(SELECT program_id FROM host_programs WHERE host_id=" + host_id + ");", 3))
                     {
                         result.Add(programs[1] + " Version: " + programs[2]);
                     }

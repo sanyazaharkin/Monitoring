@@ -26,7 +26,7 @@ namespace LibSrv
                 else
                 {
                     //если нет то добавляем запись в БД
-                    host.host_id = int.Parse(Sql_Query_Execute("INSERT INTO hosts (hostname, operating_system, bios_version, state, last_update_time) VALUES ('" + host.hostname + "', " + GetOperatingSystemID(host.os_version,connection) + ", '" + host.bios_version + "', " + host.state + ", '" + DateTime.Now + "'); SELECT LAST_INSERT_ID();", connection));
+                    host.host_id = int.Parse(Sql_Query_Execute("INSERT INTO hosts (hostname, operating_system, bios_version, state, last_update_time) VALUES ('" + host.hostname + "', '" + host.os_version + "', '" + host.bios_version + "', 'Без изменений', '" + DateTime.Now + "'); SELECT LAST_INSERT_ID();", connection));
                 }
                 #endregion
 
@@ -120,8 +120,6 @@ namespace LibSrv
             }
 
         }
-
-
         private static string Sql_Query_Execute(string query, MySqlConnection conn) //метод который выполняет запросы в БД
         {
             Work.SendMSG("Выполняется запрос: " + query);
@@ -133,7 +131,6 @@ namespace LibSrv
             Work.SendMSG("Получен ответ:" + (answer != null ? answer.ToString() : "-1"));
             return answer!=null?answer.ToString():"-1";
         }
-
         private static MySqlDataReader Get_Table_From_DB(string query,MySqlConnection connection) //метод для получения целой таблицы из БД
         {
             MySqlCommand command = connection.CreateCommand();
@@ -141,36 +138,31 @@ namespace LibSrv
             MySqlDataReader reader = command.ExecuteReader();
             return reader;
         }
-
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_MB device, MySqlConnection connection) //перегрузка метода для записи информации об устройстве в БД  , все перегрузки этого метода работают одинаково, только пишут в разные таблицы 
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection); //получение ID
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM device_mb WHERE device_name_hash=" + device.hash + ");", connection)=="0")//если нет информации о данной железке 
             {      
                 //то пишем ее в БД
-                Sql_Query_Execute("INSERT INTO device_mb (device_name_hash, manufacturer_id, model, name, product,serial_number) VALUES (" + device.hash + ", " + GetManufacturerID(device.manufacturer, connection) + ",'" + device.model + "','" + device.name + "','" + device.product + "','" + device.serial_number + "'); SELECT LAST_INSERT_ID();", connection);
+                Sql_Query_Execute("INSERT INTO device_mb (device_name_hash, manufacturer, model, name, product,serial_number) VALUES (" + device.hash + ", '" + device.manufacturer + "','" + device.model + "','" + device.name + "','" + device.product + "','" + device.serial_number + "'); SELECT LAST_INSERT_ID();", connection);
             }
         }
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_CPU device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM device_cpu WHERE device_name_hash=" + device.hash + ");", connection) == "0")
             {                
-                Sql_Query_Execute("INSERT INTO device_cpu (device_name_hash, manufacturer_id, name, cores, clock_speed) VALUES (" + device.hash + "," + GetManufacturerID(device.manufacturer, connection) + ",'" + device.name + "'," + device.cores + "," + device.clock_speed + "); SELECT LAST_INSERT_ID();", connection);
+                Sql_Query_Execute("INSERT INTO device_cpu (device_name_hash, manufacturer, name, cores, clock_speed) VALUES (" + device.hash + ",'" + device.manufacturer + "','" + device.name + "'," + device.cores + "," + device.clock_speed + "); SELECT LAST_INSERT_ID();", connection);
             }
         }
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_RAM device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM device_ram WHERE device_name_hash=" + device.hash + ");", connection) == "0")
             {                
-                Sql_Query_Execute("INSERT IGNORE INTO device_ram (device_name_hash, manufacturer_id, clock_speed, memory_type, form_factor, size) VALUES (" + device.hash + "," + GetManufacturerID(device.manufacturer, connection) + "," + device.clock_speed + "," + device.memory_type + "," + device.form_factor + ", " + device.size + "); SELECT LAST_INSERT_ID();", connection);
+                Sql_Query_Execute("INSERT IGNORE INTO device_ram (device_name_hash, manufacturer, clock_speed, memory_type, form_factor, size) VALUES (" + device.hash + ",'" + device.manufacturer + "'," + device.clock_speed + "," + device.memory_type + "," + device.form_factor + ", " + device.size + "); SELECT LAST_INSERT_ID();", connection);
             }
         }
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_HDD device, MySqlConnection connection)
         {
 
@@ -184,15 +176,13 @@ namespace LibSrv
                 Sql_Query_Execute("UPDATE device_hdd SET free_space=" + device.free_space + " WHERE device_name_hash=" + device.hash + ";", connection);
             }
         }
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_NET device, MySqlConnection connection)
         {
-            device.id = GetDeviceID(device.hash, device.device_type, connection);
-            int gateway_id = GetGatewayID(device.Gateway[0], connection);
+            device.id = GetDeviceID(device.hash, device.device_type, connection);           
 
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM device_net WHERE device_name_hash=" + device.hash + ");", connection) == "0")
             {   
-                Sql_Query_Execute("INSERT IGNORE INTO device_net (device_name_hash, mac, description, gateway_id) VALUES (" + device.hash + ",'" + device.mac + "','" + device.description + "'," + gateway_id + "); SELECT LAST_INSERT_ID();", connection);
+                Sql_Query_Execute("INSERT IGNORE INTO device_net (device_name_hash, mac, description, gateway) VALUES (" + device.hash + ",'" + device.mac + "','" + device.description + "','" + device.Gateway[0] + "'); SELECT LAST_INSERT_ID();", connection);
             }
 
             Sql_Query_Execute("DELETE FROM net_ip_addresses WHERE mac='" + device.mac + "';", connection);
@@ -202,7 +192,6 @@ namespace LibSrv
             }
             
         }
-
         private static void Write_Device_to_DB(LibHost.Devices.Device_GPU device, MySqlConnection connection)
         {
             device.id = GetDeviceID(device.hash, device.device_type, connection);
@@ -212,8 +201,6 @@ namespace LibSrv
                 Sql_Query_Execute("INSERT IGNORE INTO device_gpu (device_name_hash, name, memory_size) VALUES (" + device.hash + ",'" + device.name + "'," + device.memory_size + "); SELECT LAST_INSERT_ID();", connection);
             }
         }
-
-
         private static void Write_Process_to_DB(LibHost.Process process, MySqlConnection connection) //метод который пишет информацию о процессахз в БД
         {
             
@@ -226,8 +213,7 @@ namespace LibSrv
                 process.process_id = int.Parse(Sql_Query_Execute("INSERT INTO processes (name) VALUES ('" + process.name + "'); SELECT LAST_INSERT_ID();", connection));
             }
 
-        }
-        
+        }       
         private static void Write_Programm_to_DB(LibHost.Program programm, MySqlConnection connection) //метод который пишет информацию о программах в БД
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM programs WHERE name_version_hash=" + programm.hash + ");", connection) == "1")
@@ -236,25 +222,21 @@ namespace LibSrv
             }
             else
             {
-                programm.program_id = int.Parse(Sql_Query_Execute("INSERT INTO programs (name_version_hash, name, version, vendor_id) VALUES (" + programm.hash + ",'" + programm.name + "','" + programm.version + "', " + GetVendorID(programm.vendor, connection) + " ); SELECT LAST_INSERT_ID();", connection));
+                programm.program_id = int.Parse(Sql_Query_Execute("INSERT INTO programs (name_version_hash, name, version, vendor) VALUES (" + programm.hash + ",'" + programm.name + "','" + programm.version + "', '" + programm.vendor + "' ); SELECT LAST_INSERT_ID();", connection));
             }
         }
+        //private static int GetManufacturerID(string name, MySqlConnection connection) //метод который пишет информацию о производителе в таблицу и возвращает полученный ID
+        //{
+        //    if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM manufacturers WHERE name='" + name + "');", connection) == "1")
+        //    {
+        //        return int.Parse(Sql_Query_Execute("SELECT id FROM manufacturers WHERE name='" + name + "';", connection));
+        //    }
+        //    else
+        //    {
+        //        return int.Parse(Sql_Query_Execute("INSERT IGNORE INTO manufacturers (name) VALUES ('" + name + "'); SELECT LAST_INSERT_ID();", connection));
+        //    }
 
-
-
-        private static int GetManufacturerID(string name, MySqlConnection connection) //метод который пишет информацию о производителе в таблицу и возвращает полученный ID
-        {
-            if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM manufacturers WHERE name='" + name + "');", connection) == "1")
-            {
-                return int.Parse(Sql_Query_Execute("SELECT id FROM manufacturers WHERE name='" + name + "';", connection));
-            }
-            else
-            {
-                return int.Parse(Sql_Query_Execute("INSERT IGNORE INTO manufacturers (name) VALUES ('" + name + "'); SELECT LAST_INSERT_ID();", connection));
-            }
-
-        }
-
+        //}
         private static int GetDeviceID(int hash,string type, MySqlConnection connection) //метода добавляюший запись в таблицу Devices и возвращающий ID 
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM devices WHERE device_name_hash=" + hash + ");", connection) == "1")
@@ -267,47 +249,44 @@ namespace LibSrv
             }
 
         }
+        //private static int GetGatewayID(System.Net.IPAddress gw, MySqlConnection connection) //запись в таблицу gateways  и получение id 
+        //{
 
-        private static int GetGatewayID(System.Net.IPAddress gw, MySqlConnection connection) //запись в таблицу gateways  и получение id 
-        {
+        //    if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM net_gateways WHERE gateway='" + gw.ToString() + "');", connection) == "1")
+        //    {
+        //        return int.Parse(Sql_Query_Execute("SELECT id FROM net_gateways WHERE gateway='" + gw.ToString() + "';", connection));
+        //    }
+        //    else
+        //    {
+        //        return int.Parse(Sql_Query_Execute("INSERT IGNORE INTO net_gateways (gateway) VALUES ('" + gw.ToString() + "'); SELECT LAST_INSERT_ID();", connection));
+        //    }
+        //}
 
-            if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM net_gateways WHERE gateway='" + gw.ToString() + "');", connection) == "1")
-            {
-                return int.Parse(Sql_Query_Execute("SELECT id FROM net_gateways WHERE gateway='" + gw.ToString() + "';", connection));
-            }
-            else
-            {
-                return int.Parse(Sql_Query_Execute("INSERT IGNORE INTO net_gateways (gateway) VALUES ('" + gw.ToString() + "'); SELECT LAST_INSERT_ID();", connection));
-            }
-        }
+        //private static int GetVendorID(string vendor, MySqlConnection connection) //запись в таблицу vendors  и получение id
+        //{
 
-        private static int GetVendorID(string vendor, MySqlConnection connection) //запись в таблицу vendors  и получение id
-        {
+        //    if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM vendors WHERE vendor='" + vendor + "');", connection) == "1")
+        //    {
+        //        return int.Parse(Sql_Query_Execute("SELECT id FROM vendors WHERE vendor='" + vendor + "';", connection));
+        //    }
+        //    else
+        //    {
+        //        return int.Parse(Sql_Query_Execute("INSERT INTO vendors (vendor) VALUES ('" + vendor + "'); SELECT LAST_INSERT_ID();", connection));
+        //    }
+        //}
 
-            if (Sql_Query_Execute("SELECT EXISTS(SELECT id FROM vendors WHERE vendor='" + vendor + "');", connection) == "1")
-            {
-                return int.Parse(Sql_Query_Execute("SELECT id FROM vendors WHERE vendor='" + vendor + "';", connection));
-            }
-            else
-            {
-                return int.Parse(Sql_Query_Execute("INSERT INTO vendors (vendor) VALUES ('" + vendor + "'); SELECT LAST_INSERT_ID();", connection));
-            }
-        }
+        //private static int GetOperatingSystemID(string os_version, MySqlConnection connection) //запись в таблицу operating_systems  и получение id
+        //{
 
-        private static int GetOperatingSystemID(string os_version, MySqlConnection connection) //запись в таблицу operating_systems  и получение id
-        {
-
-            if (Sql_Query_Execute("SELECT EXISTS (SELECT id FROM operating_systems WHERE system='" + os_version + "');", connection) == "1")
-            {
-                return int.Parse(Sql_Query_Execute("SELECT id FROM operating_systems WHERE system='" + os_version + "';", connection));
-            }
-            else
-            {
-                return int.Parse(Sql_Query_Execute("INSERT INTO operating_systems(system) VALUES ('" + os_version + "'); SELECT LAST_INSERT_ID();", connection));
-            }
-        }
-
-
+        //    if (Sql_Query_Execute("SELECT EXISTS (SELECT id FROM operating_systems WHERE system='" + os_version + "');", connection) == "1")
+        //    {
+        //        return int.Parse(Sql_Query_Execute("SELECT id FROM operating_systems WHERE system='" + os_version + "';", connection));
+        //    }
+        //    else
+        //    {
+        //        return int.Parse(Sql_Query_Execute("INSERT INTO operating_systems(system) VALUES ('" + os_version + "'); SELECT LAST_INSERT_ID();", connection));
+        //    }
+        //}
         private static void SearchChangeDevices(LibHost.Host host, MySqlConnection connection) //поиск изменений в составе устройств
         {
             List<int> oldDeviceHash = new List<int>(); //пустой список старых устройств
@@ -347,7 +326,6 @@ namespace LibSrv
             }
 
         }
-
         private static void SearchChangePrograms(LibHost.Host host, MySqlConnection connection) //поиск изменений в составе программ, работает аналогично предыдущему, с небольшой разницей
         {
             List<int> oldProgramHash = new List<int>();
@@ -387,7 +365,7 @@ namespace LibSrv
                 {
                     //если енет то добавляем запись и получаем id
                     LibHost.Program temp = host.Programs.Find(x => x.hash == item);
-                    program_id = int.Parse(Sql_Query_Execute("INSERT INTO programs (name_version_hash, name, version, vendor_id) VALUES (" + temp.hash + ",'" + temp.name + "','" + temp.version + "', " + GetVendorID(temp.vendor, connection) + " ); SELECT LAST_INSERT_ID();", connection));
+                    program_id = int.Parse(Sql_Query_Execute("INSERT INTO programs (name_version_hash, name, version, vendor) VALUES (" + temp.hash + ",'" + temp.name + "','" + temp.version + "', '" + temp.vendor + "' ); SELECT LAST_INSERT_ID();", connection));
                 }
 
 
@@ -404,18 +382,16 @@ namespace LibSrv
             }
 
         }
-
-
         private static void UpdateHostState(LibHost.Host host, MySqlConnection connection) //метод обновляющий статус устройства
         {
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_device_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1") //если есть непрочтеные записи об изменении в списке устройств
             {
-                Sql_Query_Execute("UPDATE hosts SET state=2 WHERE id = " + host.host_id + "; ", connection); //то обновляем состояние на 2
+                Sql_Query_Execute("UPDATE hosts SET state='изменен набор устройств' WHERE id = " + host.host_id + "; ", connection); //то обновляем состояние на 2
             }
 
             if (Sql_Query_Execute("SELECT EXISTS(SELECT * FROM host_program_history WHERE looked = 0 AND host_id=" + host.host_id + "); ", connection) == "1") //если есть непрочтеные записи об изменении в списке программ
             {
-                Sql_Query_Execute("UPDATE hosts SET state=3 WHERE id = " + host.host_id + "; ", connection);//то обновляем состояние на 3
+                Sql_Query_Execute("UPDATE hosts SET state='изменен список программ' WHERE id = " + host.host_id + "; ", connection);//то обновляем состояние на 3
             }
         }
 
