@@ -30,9 +30,13 @@
         {
             this.ProgramHistoryGrid = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.expand_devices_button = new System.Windows.Forms.Button();
+            this.colapse_devices_button = new System.Windows.Forms.Button();
             this.DevicesTree = new System.Windows.Forms.TreeView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.expand_programs_button = new System.Windows.Forms.Button();
             this.ProgramTree = new System.Windows.Forms.TreeView();
+            this.collapse_programs_button = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.SetLookedButton1 = new System.Windows.Forms.Button();
             this.DevicesHistoryGrid = new System.Windows.Forms.DataGridView();
@@ -55,6 +59,8 @@
             this.DeleteHostButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.Upload_Report_button = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Accept_Button1 = new System.Windows.Forms.Button();
             this.ProgramHistoryGrid.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -75,22 +81,46 @@
             this.ProgramHistoryGrid.Controls.Add(this.tabPage2);
             this.ProgramHistoryGrid.Controls.Add(this.tabPage3);
             this.ProgramHistoryGrid.Controls.Add(this.tabPage4);
-            this.ProgramHistoryGrid.Location = new System.Drawing.Point(2, 43);
+            this.ProgramHistoryGrid.Location = new System.Drawing.Point(12, 43);
             this.ProgramHistoryGrid.Name = "ProgramHistoryGrid";
             this.ProgramHistoryGrid.SelectedIndex = 0;
-            this.ProgramHistoryGrid.Size = new System.Drawing.Size(1180, 502);
+            this.ProgramHistoryGrid.Size = new System.Drawing.Size(1192, 372);
             this.ProgramHistoryGrid.TabIndex = 0;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.expand_devices_button);
+            this.tabPage1.Controls.Add(this.colapse_devices_button);
             this.tabPage1.Controls.Add(this.DevicesTree);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1172, 476);
+            this.tabPage1.Size = new System.Drawing.Size(723, 292);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Установленное оборудование";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // expand_devices_button
+            // 
+            this.expand_devices_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.expand_devices_button.Location = new System.Drawing.Point(0, 268);
+            this.expand_devices_button.Name = "expand_devices_button";
+            this.expand_devices_button.Size = new System.Drawing.Size(154, 23);
+            this.expand_devices_button.TabIndex = 1;
+            this.expand_devices_button.Text = "развернуть";
+            this.expand_devices_button.UseVisualStyleBackColor = true;
+            this.expand_devices_button.Click += new System.EventHandler(this.expand_devices_button_Click);
+            // 
+            // colapse_devices_button
+            // 
+            this.colapse_devices_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.colapse_devices_button.Location = new System.Drawing.Point(160, 268);
+            this.colapse_devices_button.Name = "colapse_devices_button";
+            this.colapse_devices_button.Size = new System.Drawing.Size(154, 23);
+            this.colapse_devices_button.TabIndex = 1;
+            this.colapse_devices_button.Text = "свернуть";
+            this.colapse_devices_button.UseVisualStyleBackColor = true;
+            this.colapse_devices_button.Click += new System.EventHandler(this.colapse_devices_button_Click);
             // 
             // DevicesTree
             // 
@@ -99,18 +129,31 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DevicesTree.Location = new System.Drawing.Point(0, 0);
             this.DevicesTree.Name = "DevicesTree";
-            this.DevicesTree.Size = new System.Drawing.Size(1291, 479);
+            this.DevicesTree.Size = new System.Drawing.Size(723, 262);
             this.DevicesTree.TabIndex = 0;
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.expand_programs_button);
             this.tabPage5.Controls.Add(this.ProgramTree);
+            this.tabPage5.Controls.Add(this.collapse_programs_button);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1172, 476);
+            this.tabPage5.Size = new System.Drawing.Size(723, 292);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Установленное ПО";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // expand_programs_button
+            // 
+            this.expand_programs_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.expand_programs_button.Location = new System.Drawing.Point(0, 269);
+            this.expand_programs_button.Name = "expand_programs_button";
+            this.expand_programs_button.Size = new System.Drawing.Size(154, 23);
+            this.expand_programs_button.TabIndex = 1;
+            this.expand_programs_button.Text = "развернуть";
+            this.expand_programs_button.UseVisualStyleBackColor = true;
+            this.expand_programs_button.Click += new System.EventHandler(this.expand_programs_button_Click);
             // 
             // ProgramTree
             // 
@@ -119,8 +162,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ProgramTree.Location = new System.Drawing.Point(0, 0);
             this.ProgramTree.Name = "ProgramTree";
-            this.ProgramTree.Size = new System.Drawing.Size(1172, 476);
+            this.ProgramTree.Size = new System.Drawing.Size(723, 241);
             this.ProgramTree.TabIndex = 0;
+            // 
+            // collapse_programs_button
+            // 
+            this.collapse_programs_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.collapse_programs_button.Location = new System.Drawing.Point(160, 269);
+            this.collapse_programs_button.Name = "collapse_programs_button";
+            this.collapse_programs_button.Size = new System.Drawing.Size(154, 23);
+            this.collapse_programs_button.TabIndex = 1;
+            this.collapse_programs_button.Text = "свернуть";
+            this.collapse_programs_button.UseVisualStyleBackColor = true;
+            this.collapse_programs_button.Click += new System.EventHandler(this.collapse_programs_button_Click);
             // 
             // tabPage2
             // 
@@ -129,7 +183,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1172, 476);
+            this.tabPage2.Size = new System.Drawing.Size(1184, 346);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Изменения оборудования";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -138,9 +192,9 @@
             // 
             this.SetLookedButton1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetLookedButton1.Location = new System.Drawing.Point(3, 446);
+            this.SetLookedButton1.Location = new System.Drawing.Point(0, 324);
             this.SetLookedButton1.Name = "SetLookedButton1";
-            this.SetLookedButton1.Size = new System.Drawing.Size(1169, 22);
+            this.SetLookedButton1.Size = new System.Drawing.Size(1184, 22);
             this.SetLookedButton1.TabIndex = 1;
             this.SetLookedButton1.Text = "Пометить все как просмотрено";
             this.SetLookedButton1.UseVisualStyleBackColor = true;
@@ -162,10 +216,10 @@
             this.Action,
             this.Looked,
             this.date});
-            this.DevicesHistoryGrid.Location = new System.Drawing.Point(0, 0);
+            this.DevicesHistoryGrid.Location = new System.Drawing.Point(6, 0);
             this.DevicesHistoryGrid.Name = "DevicesHistoryGrid";
             this.DevicesHistoryGrid.ReadOnly = true;
-            this.DevicesHistoryGrid.Size = new System.Drawing.Size(1172, 440);
+            this.DevicesHistoryGrid.Size = new System.Drawing.Size(1178, 318);
             this.DevicesHistoryGrid.TabIndex = 0;
             // 
             // nostname
@@ -204,7 +258,7 @@
             this.tabPage3.Controls.Add(this.ProgramsHistoryGrid);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1172, 476);
+            this.tabPage3.Size = new System.Drawing.Size(1184, 346);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Изменения ПО";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -213,9 +267,9 @@
             // 
             this.SetLookedButton2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SetLookedButton2.Location = new System.Drawing.Point(-1, 450);
+            this.SetLookedButton2.Location = new System.Drawing.Point(-1, 320);
             this.SetLookedButton2.Name = "SetLookedButton2";
-            this.SetLookedButton2.Size = new System.Drawing.Size(1173, 22);
+            this.SetLookedButton2.Size = new System.Drawing.Size(1185, 22);
             this.SetLookedButton2.TabIndex = 2;
             this.SetLookedButton2.Text = "Пометить все как просмотрено";
             this.SetLookedButton2.UseVisualStyleBackColor = true;
@@ -240,7 +294,7 @@
             this.ProgramsHistoryGrid.Location = new System.Drawing.Point(-1, 0);
             this.ProgramsHistoryGrid.Name = "ProgramsHistoryGrid";
             this.ProgramsHistoryGrid.ReadOnly = true;
-            this.ProgramsHistoryGrid.Size = new System.Drawing.Size(1173, 444);
+            this.ProgramsHistoryGrid.Size = new System.Drawing.Size(1185, 314);
             this.ProgramsHistoryGrid.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn1
@@ -278,7 +332,7 @@
             this.tabPage4.Controls.Add(this.listView1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1172, 476);
+            this.tabPage4.Size = new System.Drawing.Size(723, 292);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Запущенные процессы";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -290,16 +344,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(1172, 476);
+            this.listView1.Size = new System.Drawing.Size(723, 292);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
             // 
             // UpdateButton
             // 
-            this.UpdateButton.Location = new System.Drawing.Point(2, 0);
+            this.UpdateButton.Location = new System.Drawing.Point(12, 9);
             this.UpdateButton.Name = "UpdateButton";
-            this.UpdateButton.Size = new System.Drawing.Size(116, 37);
+            this.UpdateButton.Size = new System.Drawing.Size(148, 23);
             this.UpdateButton.TabIndex = 1;
             this.UpdateButton.Text = "Обновить информацию";
             this.UpdateButton.UseVisualStyleBackColor = true;
@@ -307,9 +361,9 @@
             // 
             // DeleteHostButton
             // 
-            this.DeleteHostButton.Location = new System.Drawing.Point(124, 0);
+            this.DeleteHostButton.Location = new System.Drawing.Point(166, 9);
             this.DeleteHostButton.Name = "DeleteHostButton";
-            this.DeleteHostButton.Size = new System.Drawing.Size(107, 37);
+            this.DeleteHostButton.Size = new System.Drawing.Size(90, 23);
             this.DeleteHostButton.TabIndex = 2;
             this.DeleteHostButton.Text = "Удалить хост";
             this.DeleteHostButton.UseVisualStyleBackColor = true;
@@ -317,19 +371,43 @@
             // 
             // Upload_Report_button
             // 
-            this.Upload_Report_button.Location = new System.Drawing.Point(238, 0);
+            this.Upload_Report_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Upload_Report_button.Location = new System.Drawing.Point(1085, 9);
             this.Upload_Report_button.Name = "Upload_Report_button";
-            this.Upload_Report_button.Size = new System.Drawing.Size(119, 36);
+            this.Upload_Report_button.Size = new System.Drawing.Size(119, 23);
             this.Upload_Report_button.TabIndex = 3;
             this.Upload_Report_button.Text = "Выгрузить отчет";
             this.Upload_Report_button.UseVisualStyleBackColor = true;
             this.Upload_Report_button.Click += new System.EventHandler(this.Upload_Report_button_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(262, 9);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(694, 21);
+            this.comboBox1.TabIndex = 4;
+            // 
+            // Accept_Button1
+            // 
+            this.Accept_Button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Accept_Button1.Location = new System.Drawing.Point(962, 9);
+            this.Accept_Button1.Name = "Accept_Button1";
+            this.Accept_Button1.Size = new System.Drawing.Size(117, 23);
+            this.Accept_Button1.TabIndex = 5;
+            this.Accept_Button1.Text = "Подтвердить";
+            this.Accept_Button1.UseVisualStyleBackColor = true;
+            this.Accept_Button1.Click += new System.EventHandler(this.Accept_Button1_Click);
+            // 
             // HostForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1183, 545);
+            this.ClientSize = new System.Drawing.Size(1216, 427);
+            this.Controls.Add(this.Accept_Button1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.Upload_Report_button);
             this.Controls.Add(this.DeleteHostButton);
             this.Controls.Add(this.UpdateButton);
@@ -380,5 +458,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button Upload_Report_button;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button Accept_Button1;
+        private System.Windows.Forms.Button expand_devices_button;
+        private System.Windows.Forms.Button colapse_devices_button;
+        private System.Windows.Forms.Button expand_programs_button;
+        private System.Windows.Forms.Button collapse_programs_button;
     }
 }

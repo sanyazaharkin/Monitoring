@@ -4,3 +4,5 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\ReleaseCustom
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\ReleaseCustom\AgentConsole.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\ReleaseCustom\AgentConsole.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentConsole\obj\ReleaseCustom\AgentConsole.exe
+C:\Users\sanya\source\repos\Monitoring\Release\AgentConsole\AgentConsole.exe.CodeAnalysisLog.xml
+C:\Users\sanya\source\repos\Monitoring\Release\AgentConsole\AgentConsole.exe.lastcodeanalysissucceeded

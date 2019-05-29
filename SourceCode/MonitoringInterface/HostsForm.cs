@@ -21,6 +21,7 @@ namespace MonitoringInterface
         public HostsForm(object sAll) //конструктор принимающий в аргументы коллекцию с настройками
         {
             InitializeComponent();
+            HostsGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             db_conn = Get_db_conn((NameValueCollection)sAll);  //создание объекта с помощью метода  Get_db_conn которому в параметры передается коллекция с настройками (NameValueCollection)sAll
             checkBox1.Checked = true; //присвоение переменным начальных значений
             timer1.Enabled = checkBox1.Checked;
@@ -32,6 +33,8 @@ namespace MonitoringInterface
 
             foreach (string[] row in GetTableFromDB("SELECT id,hostname,bios_version,operating_system, cabinet_id, last_update_time,state FROM hosts", GridColumns)) //делаем запрос в БД
             {
+                row[4] = row[4]==""?"":GetTableFromDB("SELECT cabinet FROM cabinets WHERE id=" + row[4] + ";", 1)[0][0]; //запрос в БД
+
                 HostsGrid.Rows.Add(row); //добавляем строки в таблицу
             }
 
@@ -116,6 +119,23 @@ namespace MonitoringInterface
         private void Update_Button1_Click(object sender, EventArgs e)
         {
             UpdateHostsGrid(); //обновляем таблицу
+        }
+
+        private void закрытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void удалитьВыбранноеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GetTableFromDB("DELETE FROM hosts WHERE id = " + HostsGrid.SelectedRows[0].Cells[0].Value + ";", 1); //запрос в БД
+            UpdateHostsGrid(); //обновление таблицы на главной форме
+        }
+
+        private void редактированиеСпискаКабинетовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CabinetsForm form = new CabinetsForm(this);
+            form.Show();
         }
     }
 }

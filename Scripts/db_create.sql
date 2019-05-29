@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `Monitoring`.`hosts` (
   CONSTRAINT `to_cabinets`
     FOREIGN KEY (`cabinet_id`)
     REFERENCES `Monitoring`.`cabinets` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX `Hostname_UNIQUE` ON `Monitoring`.`hosts` (`hostname` ASC);
@@ -388,3 +388,15 @@ CREATE INDEX `to_device_net_idx` ON `Monitoring`.`net_ip_addresses` (`mac` ASC);
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `Monitoring`.`cabinets`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `Monitoring`;
+INSERT INTO `Monitoring`.`cabinets` (`id`, `cabinet`) VALUES (1, 'кабинет 1000');
+INSERT INTO `Monitoring`.`cabinets` (`id`, `cabinet`) VALUES (2, 'бухи');
+INSERT INTO `Monitoring`.`cabinets` (`id`, `cabinet`) VALUES (3, 'ИТ');
+
+COMMIT;
+

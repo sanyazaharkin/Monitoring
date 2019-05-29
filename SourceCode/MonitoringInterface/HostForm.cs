@@ -15,7 +15,6 @@ namespace MonitoringInterface
         {
             InitializeComponent();
         }
-
         public HostForm(int id, string name, HostsForm parentForm)
         {
             InitializeComponent();
@@ -26,17 +25,14 @@ namespace MonitoringInterface
             
             Text = "Информация об узле " + hostname;
         }
-
         private void Form_closed(object sender, EventArgs e) //при закрытии формы
         {
             parentForm.Show(); //отрисовать родительскую форму
         }
-
         private void HostForm_Load(object sender, EventArgs e) //после загрузки формы 
         {
             UpdateForm(); //обновляем ее
         }
-
         private void UpdateForm() //метод обновляющий все элементы на форме
         {
             UpdateDeviceTree();
@@ -44,8 +40,8 @@ namespace MonitoringInterface
             UpdateDeviceHistorysGrid();
             UpdateProgramHistorysGrid();
             UpdateProcessLabel();
+            UpdateCabinetComboBox();
         }
-
         private void UpdateDeviceTree()//обновление дерева с устройствами
         {
             DevicesTree.Nodes.Clear(); //очистка дерева
@@ -279,7 +275,6 @@ namespace MonitoringInterface
             }
             DevicesHistoryGrid.Update();
         }
-
         private void UpdateProgramHistorysGrid()//метод который обновляет таблицу с изменениями в составе ПО
         {
             ProgramsHistoryGrid.Rows.Clear();
@@ -298,7 +293,6 @@ namespace MonitoringInterface
             }
             ProgramsHistoryGrid.Update();
         }
-
         private void UpdateProcessLabel() //обновляем список процессов
         {            
             listView1.Clear();
@@ -310,21 +304,16 @@ namespace MonitoringInterface
 
             listView1.Update();
         }
-
-
-
         private void UpdateButton_Click(object sender, EventArgs e) //обработчик нажатия на кнопку обновить
         {
             UpdateForm(); //обновляем форму
         }
-
         private void DeleteHostButton_Click(object sender, EventArgs e) //удаление информации об узле из БД
         {
-            parentForm.GetTableFromDB("DELETE FROM hosts WHERE id = " + host_id + "",1); //запрос в БД
+            parentForm.GetTableFromDB("DELETE FROM hosts WHERE id = " + host_id + ";",1); //запрос в БД
             parentForm.UpdateHostsGrid(); //обновление таблицы на главной форме
             Close(); //закрываем текущую форму            
         }
-
         private void SetLookedButton1_Click(object sender, EventArgs e) //нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_device_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
@@ -333,7 +322,6 @@ namespace MonitoringInterface
             UpdateForm();
             
         }
-
         private void SetLookedButton2_Click(object sender, EventArgs e)//нажатие на кнопуку пометить как просмотренное
         {
             parentForm.GetTableFromDB("UPDATE host_program_history SET looked = 1 WHERE host_id = " + host_id + "", 1);
@@ -341,7 +329,6 @@ namespace MonitoringInterface
             parentForm.UpdateHostsGrid();
             UpdateForm();
         }
-
         private void UploadReport() //метод выгружающий отчет
         {
             string report_path = ChooseFolder(); //получаем путь к месту сохранения файла, с помошью диалогового окна
@@ -355,8 +342,6 @@ namespace MonitoringInterface
                 MessageBox.Show(ex.Message); //вывод окна с текстом исключения
             }            
         }
-
-
         private string ChooseFolder() //метод открывающий окно для выбора пути сохранения
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
@@ -368,13 +353,10 @@ namespace MonitoringInterface
                 return @"C:\\";
             }
         }
-
-
         private void Upload_Report_button_Click(object sender, EventArgs e) //обработчик нажатия на кнопку
         {
             UploadReport();//вызываем метод
         }
-
         private List<string> GenerateReport() //метод собирающий отчет из БД
         {
             List<string> result = new List<string>
@@ -594,7 +576,52 @@ namespace MonitoringInterface
 
             return result;
         }
+        private void UpdateCabinetComboBox()
+        {
+            comboBox1.Items.Clear();
 
+            foreach (string[] row in parentForm.GetTableFromDB("SELECT id, cabinet FROM cabinets;", 2))
+            {
+                comboBox1.Items.Add(new Cabinet(int.Parse(row[0]), row[1]));
+            }
 
+            if (parentForm.GetTableFromDB("SELECT cabinet_id FROM hosts WHERE id=" + host_id + ";", 1)[0][0] != "")
+            {
+                int temp_id = int.Parse(parentForm.GetTableFromDB("SELECT cabinet_id FROM hosts WHERE id=" + host_id + ";", 1)[0][0]);
+                string temp_cab_name = parentForm.GetTableFromDB("SELECT cabinet FROM cabinets WHERE id=" + temp_id + ";", 1)[0][0];
+                Cabinet cabinet = new Cabinet(temp_id, temp_cab_name);
+                comboBox1.SelectedIndex = comboBox1.FindString(cabinet.ToString());
+            }
+        }
+        private void Accept_Button1_Click(object sender, EventArgs e)
+        {
+            Cabinet temp = (comboBox1.SelectedItem as Cabinet);
+            if (temp != null)
+            {
+                parentForm.GetTableFromDB("UPDATE hosts SET cabinet_id = " + temp.id + " WHERE id = " + host_id + ";", 1); //запрос в БД
+                parentForm.UpdateHostsGrid(); //обновление таблицы на главной форме
+                UpdateForm();
+            }
+        }
+
+        private void expand_devices_button_Click(object sender, EventArgs e)
+        {
+            DevicesTree.ExpandAll();
+        }
+
+        private void colapse_devices_button_Click(object sender, EventArgs e)
+        {
+            DevicesTree.CollapseAll();
+        }
+
+        private void expand_programs_button_Click(object sender, EventArgs e)
+        {
+            ProgramTree.ExpandAll();
+        }
+
+        private void collapse_programs_button_Click(object sender, EventArgs e)
+        {
+            ProgramTree.CollapseAll();
+        }
     }
 }
