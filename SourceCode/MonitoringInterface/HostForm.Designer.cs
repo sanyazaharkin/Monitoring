@@ -95,7 +95,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(723, 292);
+            this.tabPage1.Size = new System.Drawing.Size(1184, 346);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Установленное оборудование";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -103,7 +103,7 @@
             // expand_devices_button
             // 
             this.expand_devices_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.expand_devices_button.Location = new System.Drawing.Point(0, 268);
+            this.expand_devices_button.Location = new System.Drawing.Point(0, 323);
             this.expand_devices_button.Name = "expand_devices_button";
             this.expand_devices_button.Size = new System.Drawing.Size(154, 23);
             this.expand_devices_button.TabIndex = 1;
@@ -114,7 +114,7 @@
             // colapse_devices_button
             // 
             this.colapse_devices_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.colapse_devices_button.Location = new System.Drawing.Point(160, 268);
+            this.colapse_devices_button.Location = new System.Drawing.Point(160, 323);
             this.colapse_devices_button.Name = "colapse_devices_button";
             this.colapse_devices_button.Size = new System.Drawing.Size(154, 23);
             this.colapse_devices_button.TabIndex = 1;
@@ -129,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DevicesTree.Location = new System.Drawing.Point(0, 0);
             this.DevicesTree.Name = "DevicesTree";
-            this.DevicesTree.Size = new System.Drawing.Size(723, 262);
+            this.DevicesTree.Size = new System.Drawing.Size(1184, 317);
             this.DevicesTree.TabIndex = 0;
             // 
             // tabPage5
@@ -139,7 +139,7 @@
             this.tabPage5.Controls.Add(this.collapse_programs_button);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(723, 292);
+            this.tabPage5.Size = new System.Drawing.Size(1184, 346);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Установленное ПО";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@
             // expand_programs_button
             // 
             this.expand_programs_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.expand_programs_button.Location = new System.Drawing.Point(0, 269);
+            this.expand_programs_button.Location = new System.Drawing.Point(0, 323);
             this.expand_programs_button.Name = "expand_programs_button";
             this.expand_programs_button.Size = new System.Drawing.Size(154, 23);
             this.expand_programs_button.TabIndex = 1;
@@ -162,13 +162,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ProgramTree.Location = new System.Drawing.Point(0, 0);
             this.ProgramTree.Name = "ProgramTree";
-            this.ProgramTree.Size = new System.Drawing.Size(723, 241);
+            this.ProgramTree.Size = new System.Drawing.Size(1184, 317);
             this.ProgramTree.TabIndex = 0;
             // 
             // collapse_programs_button
             // 
             this.collapse_programs_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.collapse_programs_button.Location = new System.Drawing.Point(160, 269);
+            this.collapse_programs_button.Location = new System.Drawing.Point(160, 323);
             this.collapse_programs_button.Name = "collapse_programs_button";
             this.collapse_programs_button.Size = new System.Drawing.Size(154, 23);
             this.collapse_programs_button.TabIndex = 1;
@@ -332,7 +332,7 @@
             this.tabPage4.Controls.Add(this.listView1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(723, 292);
+            this.tabPage4.Size = new System.Drawing.Size(1184, 346);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Запущенные процессы";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -344,7 +344,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(723, 292);
+            this.listView1.Size = new System.Drawing.Size(1184, 350);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
@@ -414,7 +414,7 @@
             this.Controls.Add(this.ProgramHistoryGrid);
             this.MinimumSize = new System.Drawing.Size(750, 400);
             this.Name = "HostForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HostForm";
             this.Load += new System.EventHandler(this.HostForm_Load);
             this.ProgramHistoryGrid.ResumeLayout(false);

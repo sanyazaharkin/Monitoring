@@ -7,5 +7,3 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\AgentService\obj\ReleaseCustom\AgentService.exe
-C:\Users\sanya\source\repos\Monitoring\Release\AgentService\AgentService.exe.CodeAnalysisLog.xml
-C:\Users\sanya\source\repos\Monitoring\Release\AgentService\AgentService.exe.lastcodeanalysissucceeded

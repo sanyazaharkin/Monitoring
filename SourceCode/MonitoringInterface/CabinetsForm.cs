@@ -13,7 +13,7 @@ namespace MonitoringInterface
     {
 
         readonly HostsForm parentForm;
-        //private BindingSource source;
+        
 
         public CabinetsForm()
         {
@@ -29,8 +29,7 @@ namespace MonitoringInterface
         }
 
         private void UpdateCabinets()
-        {
-            //source.DataSource = GetCabinets();
+        {            
             listBox1.DataSource = GetCabinets();
             listBox1.Update();    
         }
@@ -48,7 +47,8 @@ namespace MonitoringInterface
 
         private void insert_button_Click(object sender, EventArgs e)
         {
-            parentForm.GetTableFromDB("INSERT INTO cabinets (cabinet) VALUES ('" + insert_cabinet_textBox1.Text + "');", 1);
+            if(insert_cabinet_textBox1.Text != "")
+                parentForm.GetTableFromDB("INSERT INTO cabinets (cabinet) VALUES ('" + insert_cabinet_textBox1.Text + "');", 1);
             insert_cabinet_textBox1.Clear();
             parentForm.UpdateHostsGrid();
             UpdateCabinets();

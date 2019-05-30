@@ -5,7 +5,6 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\bin\Debug\
 C:\Users\sanya\source\repos\Monitoring\Debug\MonitoringInterface\MonitoringInterface.exe.config
 C:\Users\sanya\source\repos\Monitoring\Debug\MonitoringInterface\MonitoringInterface.exe
 C:\Users\sanya\source\repos\Monitoring\Debug\MonitoringInterface\MonitoringInterface.pdb
-C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Debug\MonitoringInterface.csprojAssemblyReference.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Debug\MonitoringInterface.CabinetsForm.resources
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Debug\MonitoringInterface.HostForm.resources
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Debug\MonitoringInterface.HostsForm.resources

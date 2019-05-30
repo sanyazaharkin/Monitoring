@@ -12,5 +12,3 @@ C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Releas
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\MonitoringInterface\obj\Release\MonitoringInterface.exe
-C:\Users\sanya\source\repos\Monitoring\Release\MonitoringInterface\MonitoringInterface.exe.CodeAnalysisLog.xml
-C:\Users\sanya\source\repos\Monitoring\Release\MonitoringInterface\MonitoringInterface.exe.lastcodeanalysissucceeded

@@ -1,10 +1,6 @@
 C:\Users\sanya\source\repos\Monitoring\Release\TestingConsole\TestingConsole.exe.config
 C:\Users\sanya\source\repos\Monitoring\Release\TestingConsole\TestingConsole.exe
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csprojAssemblyReference.cache
-C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.Form1.resources
-C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csproj.GenerateResource.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csproj.CoreCompileInputs.cache
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.csproj.CopyComplete
 C:\Users\sanya\source\repos\Monitoring\SourceCode\TestingConsole\obj\ReleaseCustom\TestingConsole.exe
-C:\Users\sanya\source\repos\Monitoring\Release\TestingConsole\TestingConsole.exe.CodeAnalysisLog.xml
-C:\Users\sanya\source\repos\Monitoring\Release\TestingConsole\TestingConsole.exe.lastcodeanalysissucceeded

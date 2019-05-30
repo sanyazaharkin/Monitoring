@@ -42,13 +42,13 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(13, 39);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(775, 394);
+            this.listBox1.Size = new System.Drawing.Size(409, 251);
             this.listBox1.TabIndex = 0;
             // 
             // insert_button
             // 
             this.insert_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.insert_button.Location = new System.Drawing.Point(632, 10);
+            this.insert_button.Location = new System.Drawing.Point(266, 10);
             this.insert_button.Name = "insert_button";
             this.insert_button.Size = new System.Drawing.Size(75, 23);
             this.insert_button.TabIndex = 1;
@@ -62,13 +62,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.insert_cabinet_textBox1.Location = new System.Drawing.Point(12, 12);
             this.insert_cabinet_textBox1.Name = "insert_cabinet_textBox1";
-            this.insert_cabinet_textBox1.Size = new System.Drawing.Size(614, 20);
+            this.insert_cabinet_textBox1.Size = new System.Drawing.Size(248, 20);
             this.insert_cabinet_textBox1.TabIndex = 2;
             // 
             // delete_cabinet
             // 
             this.delete_cabinet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.delete_cabinet.Location = new System.Drawing.Point(713, 10);
+            this.delete_cabinet.Location = new System.Drawing.Point(347, 10);
             this.delete_cabinet.Name = "delete_cabinet";
             this.delete_cabinet.Size = new System.Drawing.Size(75, 23);
             this.delete_cabinet.TabIndex = 3;
@@ -80,12 +80,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(434, 311);
             this.Controls.Add(this.delete_cabinet);
             this.Controls.Add(this.insert_cabinet_textBox1);
             this.Controls.Add(this.insert_button);
             this.Controls.Add(this.listBox1);
+            this.MaximumSize = new System.Drawing.Size(450, 350);
+            this.MinimumSize = new System.Drawing.Size(450, 350);
             this.Name = "CabinetsForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CabinetsForm";
             this.ResumeLayout(false);
             this.PerformLayout();
